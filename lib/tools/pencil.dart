@@ -1,22 +1,20 @@
+import 'package:draw/actions/actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../actions/actions.dart';
 import '../components/canvas_data.dart';
 import '../models/app_state.dart';
 
-class LassoTool extends StatefulWidget {
-  const LassoTool(
-      {Key? key, required this.canvasHeight, required this.canvasWidth})
+class Pencil extends StatefulWidget {
+  Pencil({Key? key, required this.canvasHeight, required this.canvasWidth})
       : super(key: key);
   final double canvasWidth;
   final double canvasHeight;
-
   @override
-  State<LassoTool> createState() => _LassoToolState();
+  State<Pencil> createState() => _PencilState();
 }
 
-class _LassoToolState extends State<LassoTool> {
+class _PencilState extends State<Pencil> {
   double selectedWidth = 1.0;
   Path p = Path();
   late List<PathData> pathDataList;
@@ -27,7 +25,7 @@ class _LassoToolState extends State<LassoTool> {
     p = Path();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
-      ..add(PathData(p, pInfo.color, selectedWidth, PathType.lassoFill));
+      ..add(PathData(p, pInfo.color, selectedWidth, PathType.normal));
     pathDataList = newPathDataList;
   }
 

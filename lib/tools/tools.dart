@@ -1,5 +1,9 @@
+import 'package:draw/components/utils.dart';
+import 'package:draw/models/app_state.dart';
 import 'package:draw/tools/lasso.dart';
+import 'package:draw/tools/pencil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 enum ToolType { lassoTool, penTool, eraseTool }
 
@@ -17,12 +21,21 @@ class _ToolsState extends State<Tools> {
   ToolType toolType = ToolType.lassoTool;
   @override
   Widget build(BuildContext context) {
-    switch (toolType) {
-      case ToolType.lassoTool:
-        return LassoTool(
-            canvasHeight: widget.canvasHeight, canvasWidth: widget.canvasWidth);
-      default:
-        return Container();
-    }
+    return StoreConnector<AppState, Tool>(
+        converter: (store) => store.state.tool,
+        builder: (BuildContext context, Tool tool) {
+          switch (tool) {
+            case Tool.lasso:
+              return LassoTool(
+                  canvasHeight: widget.canvasHeight,
+                  canvasWidth: widget.canvasWidth);
+            case Tool.pencil:
+              return Pencil(
+                  canvasHeight: widget.canvasHeight,
+                  canvasWidth: widget.canvasWidth);
+            default:
+              return Container();
+          }
+        });
   }
 }

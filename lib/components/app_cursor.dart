@@ -13,10 +13,15 @@ class _AppCursorState extends State<AppCursor> {
   Widget build(BuildContext context) {
     return IgnorePointer(
       child: Container(
-          child: Icon(
-        Icons.circle,
-        size: widget.size,
-        color: Colors.black,
+          child: CircleAvatar(
+        radius: widget.size / 2,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        child: Icon(
+          Icons.circle,
+          size: widget.size,
+          color: Colors.white,
+        ),
       )),
     );
   }
