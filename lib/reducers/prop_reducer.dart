@@ -7,3 +7,12 @@ final colorReducer = TypedReducer<Color, SetColor>(_setColorReducer);
 Color _setColorReducer(Color state, SetColor action) {
   return action.color;
 }
+
+final propPanelVisibleReducer =
+    TypedReducer<bool, SetPropertiesPanelVisibility>(
+        _setPPanelVisibilityReducer);
+
+bool _setPPanelVisibilityReducer(
+    bool state, SetPropertiesPanelVisibility action) {
+  return action.propertyPanelVisible;
+}

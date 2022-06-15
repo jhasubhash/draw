@@ -1,5 +1,9 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:draw/components/artboard.dart';
 import 'package:draw/components/colorpicker.dart';
+import 'package:draw/components/properties_panel.dart';
+import 'package:draw/components/right_bar.dart';
 import 'package:flutter/material.dart';
 import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
@@ -10,7 +14,8 @@ import 'package:redux/redux.dart';
 void main() {
   final store = Store<AppState>(
     appReducer,
-    initialState: const AppState(color: Colors.black),
+    initialState:
+        const AppState(color: Colors.black, propertyPanelVisible: false),
   );
   print('Initial state: ${store.state}');
   runApp(StoreProvider(store: store, child: const MyApp()));
@@ -41,6 +46,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     double totalHeight = MediaQuery.of(context).size.height;
@@ -52,74 +59,69 @@ class _MyHomePageState extends State<MyHomePage> {
     double artboardHeight = 600; //totalHeight / 1.5;
 
     AppBar appBar = AppBar(
-      title: Text(widget.title),
-      toolbarHeight: 30,
+      toolbarHeight: 10,
+      toolbarOpacity: 0,
     );
 
     return Scaffold(
-      body: StoreConnector<AppState, Color>(
-          converter: (Store<AppState> store) => store.state.color,
-          builder: (BuildContext context, Color color) {
-            return Container(
-              color: Colors.black,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      color: Colors.grey,
-                      width: totalWidth,
-                      height: totalHeight,
-                      child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            InteractiveViewer(
-                              boundaryMargin:
-                                  const EdgeInsets.all(double.infinity),
-                              minScale: 0.01,
-                              maxScale: 1000,
-                              child: SizedBox(
-                                width: totalWidth,
-                                height: totalHeight,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: ClipRect(
-                                    child: Container(
-                                      width: artboardWidth,
-                                      height: artboardHeight,
-                                      child: LayoutBuilder(builder:
-                                          (BuildContext context,
-                                              BoxConstraints constraints) {
-                                        return Stack(children: [
-                                          Artboard(
-                                              canvasHeight:
-                                                  constraints.maxHeight,
-                                              canvasWidth:
-                                                  constraints.maxWidth),
-                                          Tools(
-                                              canvasWidth: constraints.maxWidth,
-                                              canvasHeight:
-                                                  constraints.maxHeight),
-                                        ]);
-                                      }),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 20,
-                              height: 20,
-                              color: Colors.green,
-                              child: const DrawColorPicker(),
-                            ),
-                          ]),
+        body: Container(
+      color: Colors.grey,
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              color: Colors.red,
+              width: totalWidth,
+              height: totalHeight,
+              child: Stack(alignment: AlignmentDirectional.center, children: [
+                Container(
+                  color: Colors.grey,
+                  width: totalWidth,
+                  height: totalHeight,
+                  child: InteractiveViewer(
+                    boundaryMargin: const EdgeInsets.all(double.infinity),
+                    minScale: 0.01,
+                    maxScale: 1000,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ClipRect(
+                        child: Container(
+                          width: artboardWidth,
+                          height: artboardHeight,
+                          child: LayoutBuilder(builder: (BuildContext context,
+                              BoxConstraints constraints) {
+                            return Stack(children: [
+                              Artboard(
+                                  canvasHeight: constraints.maxHeight,
+                                  canvasWidth: constraints.maxWidth),
+                              Tools(
+                                  canvasWidth: constraints.maxWidth,
+                                  canvasHeight: constraints.maxHeight),
+                            ]);
+                          }),
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          }),
-    );
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                          margin:
+                              const EdgeInsets.only(top: 30.0, bottom: 30.0),
+                          child: PropertiesPanel()),
+                      RightBar(),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

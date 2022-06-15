@@ -18,45 +18,20 @@ class _ColorPickerState extends State<DrawColorPicker> {
     StoreProvider.of<AppState>(context).dispatch(SetColor(color));
   }
 
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
-    return DialogRoute<void>(
-        context: context,
-        builder: (BuildContext context) => StoreConnector<AppState, Color>(
-            converter: (store) => store.state.color,
-            builder: (BuildContext context, Color color) {
-              return AlertDialog(
-                titlePadding: const EdgeInsets.all(0),
-                contentPadding: const EdgeInsets.all(0),
-                content: SingleChildScrollView(
-                  child: ColorPicker(
-                    colorPickerWidth: 300,
-                    pickerAreaHeightPercent: 0.7,
-                    portraitOnly: true,
-                    pickerColor: color,
-                    onColorChanged: (color) => {changeColor(context, color)},
-                  ),
-                ),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: const Text('Got it'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            }));
-  }
-
   @override
   Widget build(BuildContext context) {
-    var state = StoreProvider.of<AppState>(context);
-    return OutlinedButton(
-      onPressed: () {
-        Navigator.of(context).restorablePush(_dialogBuilder);
-      },
-      child: const Text('Open Dialog'),
-    );
+    return StoreConnector<AppState, Color>(
+        converter: (store) => store.state.color,
+        builder: (BuildContext context, Color color) {
+          return Container(
+            child: ColorPicker(
+              colorPickerWidth: 300,
+              pickerAreaHeightPercent: 0.7,
+              portraitOnly: true,
+              pickerColor: color,
+              onColorChanged: (color) => {changeColor(context, color)},
+            ),
+          );
+        });
   }
 }
