@@ -14,7 +14,6 @@ class DrawColorPicker extends StatefulWidget {
 
 class _ColorPickerState extends State<DrawColorPicker> {
   static void changeColor(BuildContext context, Color color) {
-    print('Initial color: ${color}');
     StoreProvider.of<AppState>(context).dispatch(SetColor(color));
   }
 
@@ -25,7 +24,7 @@ class _ColorPickerState extends State<DrawColorPicker> {
         builder: (BuildContext context, Color color) {
           return Container(
             child: ColorPicker(
-              colorPickerWidth: 300,
+              colorPickerWidth: 250,
               pickerAreaHeightPercent: 0.7,
               portraitOnly: true,
               pickerColor: color,

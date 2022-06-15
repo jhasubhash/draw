@@ -14,13 +14,18 @@ class PropertiesPanel extends StatefulWidget {
 class _PropertiesPanelState extends State<PropertiesPanel> {
   double panelWidth = 250;
   bool isPanelVisible = true;
+  Offset offset1 = Offset.zero;
+  Offset offset2 = const Offset(1, 0);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
         converter: (store) => store.state.propertyPanelVisible,
         builder: (BuildContext context, bool propertyPanelVisible) {
-          return Visibility(
-            visible: propertyPanelVisible,
+          return AnimatedSlide(
+            offset: propertyPanelVisible ? offset1 : offset2,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
             child: Container(
               width: panelWidth,
               height: double.infinity,

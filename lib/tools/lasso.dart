@@ -31,7 +31,6 @@ class _LassoToolState extends State<LassoTool> {
     setState(() {
       pathDataList = newPathDataList;
     });
-    print(point);
   }
 
   void onPanUpdate(DragUpdateDetails details) {
@@ -41,7 +40,6 @@ class _LassoToolState extends State<LassoTool> {
     setState(() {
       pathDataList = [...pathDataList];
     });
-    print(point);
   }
 
   void onPanEnd(DragEndDetails details) {
