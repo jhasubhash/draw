@@ -22,16 +22,44 @@ class _ColorPickerState extends State<DrawColorPicker> {
     return StoreConnector<AppState, Color>(
         converter: (store) => store.state.color,
         builder: (BuildContext context, Color color) {
-          return Container(
-            child: ColorPicker(
-              labelTypes: [],
-              hexInputBar: true,
-              colorPickerWidth: 250,
-              pickerAreaHeightPercent: 0.7,
-              portraitOnly: true,
-              pickerColor: color,
-              onColorChanged: (color) => {changeColor(context, color)},
-            ),
+          return Column(
+            children: [
+              Stack(alignment: AlignmentDirectional.bottomStart, children: [
+                Container(
+                  child: ColorPicker(
+                    labelTypes: [],
+                    hexInputBar: false,
+                    colorPickerWidth: 250,
+                    pickerAreaHeightPercent: 0.7,
+                    portraitOnly: true,
+                    pickerColor: color,
+                    onColorChanged: (color) => {changeColor(context, color)},
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(right: 20),
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    width: 75,
+                    child: TextField(
+                      controller: TextEditingController()
+                        ..text = colorToHex(color, enableAlpha: false),
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(6),
+                        isDense: true,
+                        isCollapsed: true,
+                        border: OutlineInputBorder(gapPadding: 0),
+                      ),
+                      onSubmitted: (val) {
+                        changeColor(
+                            context, colorFromHex(val, enableAlpha: false)!);
+                      },
+                    ),
+                  ),
+                )
+              ]),
+            ],
           );
         });
   }

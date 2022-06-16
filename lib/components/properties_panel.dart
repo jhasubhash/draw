@@ -60,7 +60,7 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 200,
+                          width: 180,
                           child: Slider(
                             value: prop.strokeWidth,
                             onChanged: onStrokeWidthChange,
@@ -71,10 +71,16 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
                           ),
                         ),
                         SizedBox(
-                          width: 30,
+                          width: 50,
                           child: TextField(
                             controller: TextEditingController()
                               ..text = prop.strokeWidth.toStringAsFixed(1),
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(6),
+                              isDense: true,
+                              isCollapsed: true,
+                              border: OutlineInputBorder(gapPadding: 0),
+                            ),
                             onSubmitted: (val) {
                               onStrokeWidthChange(double.parse(val));
                             },
