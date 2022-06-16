@@ -6,10 +6,7 @@ import '../components/canvas_data.dart';
 import '../models/app_state.dart';
 
 class Pencil extends StatefulWidget {
-  Pencil({Key? key, required this.canvasHeight, required this.canvasWidth})
-      : super(key: key);
-  final double canvasWidth;
-  final double canvasHeight;
+  const Pencil({Key? key}) : super(key: key);
   @override
   State<Pencil> createState() => _PencilState();
 }

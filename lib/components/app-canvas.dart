@@ -67,9 +67,7 @@ class _AppCanvasState extends State<AppCanvas> {
                         Artboard(
                             canvasHeight: constraints.maxHeight,
                             canvasWidth: constraints.maxWidth),
-                        Tools(
-                            canvasWidth: constraints.maxWidth,
-                            canvasHeight: constraints.maxHeight),
+                        const Tools(),
                       ]);
                     }),
                   ),

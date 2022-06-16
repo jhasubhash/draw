@@ -6,11 +6,7 @@ import '../components/canvas_data.dart';
 import '../models/app_state.dart';
 
 class LassoTool extends StatefulWidget {
-  const LassoTool(
-      {Key? key, required this.canvasHeight, required this.canvasWidth})
-      : super(key: key);
-  final double canvasWidth;
-  final double canvasHeight;
+  const LassoTool({Key? key}) : super(key: key);
 
   @override
   State<LassoTool> createState() => _LassoToolState();

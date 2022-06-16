@@ -8,10 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 enum ToolType { lassoTool, penTool, eraseTool }
 
 class Tools extends StatefulWidget {
-  const Tools({Key? key, required this.canvasHeight, required this.canvasWidth})
-      : super(key: key);
-  final double canvasWidth;
-  final double canvasHeight;
+  const Tools({Key? key}) : super(key: key);
 
   @override
   State<Tools> createState() => _ToolsState();
@@ -26,13 +23,9 @@ class _ToolsState extends State<Tools> {
         builder: (BuildContext context, Tool tool) {
           switch (tool) {
             case Tool.lasso:
-              return LassoTool(
-                  canvasHeight: widget.canvasHeight,
-                  canvasWidth: widget.canvasWidth);
+              return const LassoTool();
             case Tool.pencil:
-              return Pencil(
-                  canvasHeight: widget.canvasHeight,
-                  canvasWidth: widget.canvasWidth);
+              return const Pencil();
             default:
               return Container();
           }

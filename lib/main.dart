@@ -5,9 +5,11 @@ import 'package:draw/components/colorpicker.dart';
 import 'package:draw/components/properties_panel.dart';
 import 'package:draw/components/right_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
 import 'components/app_cursor.dart';
 import 'components/canvas_data.dart';
+import 'components/command_manager.dart';
 import 'components/tools_panel.dart';
 import 'components/utils.dart';
 import 'models/app_state.dart';
@@ -61,40 +63,55 @@ class _MyHomePageState extends State<MyHomePage> {
     double totalHeight = MediaQuery.of(context).size.height;
     double totalWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-        body: Container(
-      color: Colors.grey,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: totalWidth,
-              height: totalHeight,
-              child: Stack(alignment: AlignmentDirectional.center, children: [
-                AppCanvas(),
+    return FocusableActionDetector(
+      autofocus: true,
+      shortcuts: <LogicalKeySet, Intent>{
+        LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyZ):
+            const UndoIntent(),
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
+            const UndoIntent(),
+      },
+      actions: <Type, Action<Intent>>{
+        UndoIntent: UndoAction(context),
+      },
+      child: Builder(builder: (context) {
+        return Scaffold(
+            body: Container(
+          color: Colors.grey,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                          margin:
-                              const EdgeInsets.only(top: 30.0, bottom: 30.0),
-                          child: PropertiesPanel()),
-                      RightBar(),
-                    ],
-                  ),
+                  width: totalWidth,
+                  height: totalHeight,
+                  child:
+                      Stack(alignment: AlignmentDirectional.center, children: [
+                    AppCanvas(),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  top: 30.0, bottom: 30.0),
+                              child: PropertiesPanel()),
+                          RightBar(),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.only(top: 50.0, bottom: 50.0),
+                      child: ToolsPanel(),
+                    ),
+                  ]),
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                  child: ToolsPanel(),
-                ),
-              ]),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
+      }),
+    );
   }
 }
