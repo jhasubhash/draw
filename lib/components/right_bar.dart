@@ -30,7 +30,7 @@ class _RightBarState extends State<RightBar> {
         alignment: Alignment.topCenter,
         child: IconButton(
           color: Colors.white38,
-          icon: const Icon(Icons.palette),
+          icon: const Icon(Icons.tune),
           onPressed: () => {
             panelVisible = !panelVisible,
             changePanelVisibility(context, panelVisible)

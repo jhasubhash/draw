@@ -10,12 +10,14 @@ class AppState {
   final bool propertyPanelVisible;
   final Tool tool;
   final List<PathData> pathDataList;
+  final double strokeWidth;
 
   const AppState(
       {required this.color,
       required this.propertyPanelVisible,
       required this.tool,
-      required this.pathDataList});
+      required this.pathDataList,
+      required this.strokeWidth});
 
   @override
   String toString() {

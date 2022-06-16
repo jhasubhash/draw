@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum PathType {
-  normal,
-  lassoFill,
-}
+enum PathType { normal, lassoFill, lassoClear, erase }
 
 class PathData {
   Path path = Path();

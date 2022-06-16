@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../actions/actions.dart';
@@ -18,12 +19,17 @@ class _LassoToolState extends State<LassoTool> {
   late List<PathData> pathDataList;
 
   void onPanStart(PathInfo pInfo, DragStartDetails details) {
+    bool shiftPressed =
+        RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft);
+    PathType fillType = shiftPressed ? PathType.lassoClear : PathType.lassoFill;
+
     final box = context.findRenderObject() as RenderBox;
     final point = box.globalToLocal(details.globalPosition);
     p = Path();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
+    //Color color = shiftPressed ? Colors.transparent : pInfo.color;
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
-      ..add(PathData(p, pInfo.color, selectedWidth, PathType.lassoFill));
+      ..add(PathData(p, pInfo.color, selectedWidth, fillType));
     pathDataList = newPathDataList;
   }
 

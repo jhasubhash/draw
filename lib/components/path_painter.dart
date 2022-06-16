@@ -9,26 +9,47 @@ class PathPainter extends CustomPainter {
 
   PathPainter(this.context, this.pathDataList);
 
+  PaintingStyle getPaintStyle(PathType pathType) {
+    switch (pathType) {
+      case PathType.normal:
+        return PaintingStyle.stroke;
+      case PathType.erase:
+        return PaintingStyle.stroke;
+      default:
+        return PaintingStyle.fill;
+    }
+  }
+
+  BlendMode getBlendMode(PathType pathType) {
+    switch (pathType) {
+      case PathType.lassoClear:
+        return BlendMode.clear;
+      case PathType.erase:
+        return BlendMode.clear;
+      default:
+        return BlendMode.srcOver;
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     var myCanvas = TouchyCanvas(context, canvas);
+    canvas.saveLayer(Rect.largest, Paint());
     for (var pathData in pathDataList) {
       Paint paint = Paint();
       paint.color = pathData.selectedColor;
       paint.strokeWidth = pathData.selectedWidth;
-      paint.style = pathData.pathType == PathType.normal
-          ? PaintingStyle.stroke
-          : PaintingStyle.fill;
+      paint.style = getPaintStyle(pathData.pathType);
+      paint.blendMode = getBlendMode(pathData.pathType);
       myCanvas.drawPath(
         pathData.path,
         paint,
         onTapDown: (tapdetail) {
           print("orange Circle touched");
-          print(tapdetail.localPosition);
-          print(pathData.pathType);
         },
       );
     }
+    canvas.restore();
   }
 
   @override

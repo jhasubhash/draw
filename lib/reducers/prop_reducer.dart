@@ -32,3 +32,10 @@ final pathDataReducer =
 List<PathData> _setPathDataReducer(List<PathData> state, SetPathData action) {
   return action.pathDataList;
 }
+
+final strokeWidthReducer =
+    TypedReducer<double, SetStrokeWidth>(_setStrokeWidthReducer);
+
+double _setStrokeWidthReducer(double state, SetStrokeWidth action) {
+  return action.strokeWidth;
+}

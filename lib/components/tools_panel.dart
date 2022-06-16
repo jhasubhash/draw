@@ -25,6 +25,7 @@ class _ToolsPanelState extends State<ToolsPanel> {
   bool pointerSelected = false;
   bool lassoSelected = false;
   bool selectSelected = true;
+  bool eraserSelected = false;
 
   void resetAllTools() {
     zoomSelected = false;
@@ -35,6 +36,7 @@ class _ToolsPanelState extends State<ToolsPanel> {
     pointerSelected = false;
     lassoSelected = false;
     selectSelected = false;
+    eraserSelected = false;
   }
 
   void setSelectedTool(Tool tool) {
@@ -60,6 +62,9 @@ class _ToolsPanelState extends State<ToolsPanel> {
         break;
       case Tool.lasso:
         lassoSelected = true;
+        break;
+      case Tool.eraser:
+        eraserSelected = true;
         break;
       default:
         break;
@@ -127,6 +132,22 @@ class _ToolsPanelState extends State<ToolsPanel> {
                       },
                   //tooltip: "Paint Brush",
                   mouseCursor: MouseCursor.defer),
+              Transform.rotate(
+                angle: -math.pi / 4,
+                child: Transform.scale(
+                  scaleY: 0.6,
+                  child: IconButton(
+                      color: eraserSelected ? Colors.white : Colors.white38,
+                      icon: const Icon(Icons.rectangle),
+                      onPressed: () => {
+                            setState(() {
+                              setSelectedTool(Tool.eraser);
+                            })
+                          },
+                      //tooltip: "Eraser",
+                      mouseCursor: MouseCursor.defer),
+                ),
+              ),
               IconButton(
                   color: panSelected ? Colors.white : Colors.white38,
                   icon: const Icon(Icons.back_hand),
@@ -158,7 +179,7 @@ class _ToolsPanelState extends State<ToolsPanel> {
                   tooltip: "Zoom",
                   mouseCursor: MouseCursor.defer),
               const SizedBox(
-                height: 180,
+                height: 140,
               ),
               IconButton(
                   color: Colors.white38,

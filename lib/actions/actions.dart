@@ -23,3 +23,8 @@ class SetPathData {
   final List<PathData> pathDataList;
   SetPathData(this.pathDataList);
 }
+
+class SetStrokeWidth {
+  final double strokeWidth;
+  SetStrokeWidth(this.strokeWidth);
+}

@@ -5,6 +5,8 @@ import 'package:draw/tools/pencil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'eraser.dart';
+
 enum ToolType { lassoTool, penTool, eraseTool }
 
 class Tools extends StatefulWidget {
@@ -26,6 +28,8 @@ class _ToolsState extends State<Tools> {
               return const LassoTool();
             case Tool.pencil:
               return const Pencil();
+            case Tool.eraser:
+              return const Eraser();
             default:
               return Container();
           }

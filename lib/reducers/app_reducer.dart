@@ -13,5 +13,8 @@ AppState appReducer(AppState state, action) {
       tool: action is SetTool ? toolReducer(state.tool, action) : state.tool,
       pathDataList: action is SetPathData
           ? pathDataReducer(state.pathDataList, action)
-          : state.pathDataList);
+          : state.pathDataList,
+      strokeWidth: action is SetStrokeWidth
+          ? strokeWidthReducer(state.strokeWidth, action)
+          : state.strokeWidth);
 }

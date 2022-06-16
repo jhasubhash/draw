@@ -8,7 +8,6 @@ import '../models/app_state.dart';
 void undo(BuildContext context) {
   List<PathData> pathDataList =
       StoreProvider.of<AppState>(context).state.pathDataList;
-  print(pathDataList);
   if (pathDataList.isNotEmpty) {
     pathDataList.removeLast();
   }

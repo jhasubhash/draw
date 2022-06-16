@@ -24,6 +24,8 @@ class _ColorPickerState extends State<DrawColorPicker> {
         builder: (BuildContext context, Color color) {
           return Container(
             child: ColorPicker(
+              labelTypes: [],
+              hexInputBar: true,
               colorPickerWidth: 250,
               pickerAreaHeightPercent: 0.7,
               portraitOnly: true,

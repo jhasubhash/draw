@@ -10,6 +10,7 @@ import 'components/app-canvas.dart';
 import 'components/app_cursor.dart';
 import 'components/canvas_data.dart';
 import 'components/command_manager.dart';
+import 'components/shortcut_manager.dart';
 import 'components/tools_panel.dart';
 import 'components/utils.dart';
 import 'models/app_state.dart';
@@ -25,7 +26,8 @@ void main() {
         color: Colors.black,
         propertyPanelVisible: false,
         tool: Tool.select,
-        pathDataList: [PathData(Path(), Colors.black, 1.0, PathType.normal)]),
+        pathDataList: [PathData(Path(), Colors.black, 1.0, PathType.normal)],
+        strokeWidth: 1),
   );
   print('Initial state: ${store.state}');
   runApp(StoreProvider(store: store, child: const MyApp()));
@@ -39,9 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Draw ++',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: const MyHomePage(title: 'Draw ++'),
     );
   }
@@ -65,15 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return FocusableActionDetector(
       autofocus: true,
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyZ):
-            const UndoIntent(),
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
-            const UndoIntent(),
-      },
-      actions: <Type, Action<Intent>>{
-        UndoIntent: UndoAction(context),
-      },
+      shortcuts: getShortcuts(),
+      actions: getActions(context),
       child: Builder(builder: (context) {
         return Scaffold(
             body: Container(
