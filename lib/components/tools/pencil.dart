@@ -2,11 +2,11 @@ import 'package:draw/actions/actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../components/canvas_data.dart';
-import '../components/layer_manager.dart';
-import '../components/op_manager.dart';
-import '../components/utils.dart';
-import '../models/app_state.dart';
+import '../canvas_data.dart';
+import '../layer_manager.dart';
+import '../op_manager.dart';
+import '../utils.dart';
+import '../../models/app_state.dart';
 
 class Pencil extends StatefulWidget {
   const Pencil({Key? key}) : super(key: key);

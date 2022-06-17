@@ -2,7 +2,7 @@ import 'package:draw/actions/actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../models/app_state.dart';
+import '../../models/app_state.dart';
 
 class RightBar extends StatefulWidget {
   RightBar({Key? key}) : super(key: key);

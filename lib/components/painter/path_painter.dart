@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:touchable/touchable.dart';
 
-import 'canvas_data.dart';
+import '../canvas_data.dart';
 
 class PathPainter extends CustomPainter {
   late List<PathData> pathDataList;
@@ -41,6 +41,7 @@ class PathPainter extends CustomPainter {
       paint.strokeWidth = pathData.selectedWidth;
       paint.style = getPaintStyle(pathData.pathType);
       paint.blendMode = getBlendMode(pathData.pathType);
+      paint.strokeCap = StrokeCap.round;
       myCanvas.drawPath(
         pathData.path,
         paint,

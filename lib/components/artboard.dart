@@ -4,7 +4,7 @@ import 'package:touchable/touchable.dart';
 
 import '../models/app_state.dart';
 import 'canvas_data.dart';
-import 'path_painter.dart';
+import 'painter/path_painter.dart';
 
 class Artboard extends StatefulWidget {
   const Artboard(

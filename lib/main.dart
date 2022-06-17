@@ -2,8 +2,8 @@
 
 import 'package:draw/components/artboard.dart';
 import 'package:draw/components/colorpicker.dart';
-import 'package:draw/components/properties_panel.dart';
-import 'package:draw/components/right_bar.dart';
+import 'package:draw/components/views/properties_panel.dart';
+import 'package:draw/components/views/right_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
@@ -12,11 +12,10 @@ import 'components/canvas_data.dart';
 import 'components/command_manager.dart';
 import 'components/layer_manager.dart';
 import 'components/shortcut_manager.dart';
-import 'components/tools_panel.dart';
+import 'components/views/tools_panel.dart';
 import 'components/utils.dart';
 import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
-import 'tools/tools.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 

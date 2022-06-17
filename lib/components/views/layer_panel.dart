@@ -3,8 +3,8 @@ import 'package:draw/components/layer_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../models/app_state.dart';
-import 'canvas_data.dart';
+import '../../models/app_state.dart';
+import '../canvas_data.dart';
 
 class LayerPanel extends StatefulWidget {
   LayerPanel({Key? key}) : super(key: key);
@@ -113,55 +113,64 @@ class _LayerPanelState extends State<LayerPanel> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                color: Colors.black12,
                 height: 200,
                 width: double.infinity,
-                child: ReorderableListView(
-                  buildDefaultDragHandles: false,
-                  children: <Widget>[
-                    for (int index = 0;
-                        index < layerInfo.layers.length;
-                        index++)
-                      Container(
-                        key: Key('$index'),
-                        child: ReorderableDragStartListener(
-                          index: index,
-                          child: Material(
-                            type: MaterialType.transparency,
-                            child: Theme(
-                              data: ThemeData(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                              ),
-                              child: ListTile(
-                                dense: true,
-                                visualDensity: VisualDensity.compact,
-                                textColor: Colors.white38,
-                                selectedColor: Colors.white,
-                                style: ListTileStyle.list,
-                                selectedTileColor:
-                                    const Color.fromARGB(255, 53, 53, 53),
-                                hoverColor:
-                                    const Color.fromARGB(255, 53, 53, 53),
-                                focusColor:
-                                    const Color.fromARGB(255, 53, 53, 53),
-                                key: Key('$index'),
-                                selected: layerInfo.activeLayer.layerId ==
-                                    layerInfo.layers[index].layerId,
-                                title:
-                                    Text(getLayerText(layerInfo.layers[index])),
-                                onTap: () {
-                                  onLayerTap(layerInfo.layers[index]);
-                                },
+                child: Theme(
+                  data: ThemeData(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    canvasColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                  ),
+                  child: ReorderableListView(
+                    buildDefaultDragHandles: false,
+                    children: <Widget>[
+                      for (int index = 0;
+                          index < layerInfo.layers.length;
+                          index++)
+                        Transform(
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateX(-0.8),
+                          alignment: FractionalOffset.center,
+                          key: Key('$index'),
+                          child: Container(
+                            color: Colors.black12,
+                            margin: const EdgeInsets.only(left: 15, right: 15),
+                            child: ReorderableDragStartListener(
+                              index: index,
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: ListTile(
+                                  dense: true,
+                                  visualDensity: VisualDensity.compact,
+                                  textColor: Colors.white,
+                                  selectedColor: Colors.white,
+                                  style: ListTileStyle.list,
+                                  selectedTileColor:
+                                      const Color.fromARGB(255, 53, 53, 53),
+                                  hoverColor:
+                                      const Color.fromARGB(255, 53, 53, 53),
+                                  focusColor:
+                                      const Color.fromARGB(255, 53, 53, 53),
+                                  key: Key('$index'),
+                                  selected: layerInfo.activeLayer.layerId ==
+                                      layerInfo.layers[index].layerId,
+                                  title: Text(
+                                      getLayerText(layerInfo.layers[index])),
+                                  onTap: () {
+                                    onLayerTap(layerInfo.layers[index]);
+                                  },
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
-                  onReorder: (int oldIndex, int newIndex) {
-                    reorderLayer(layerInfo.layers, oldIndex, newIndex);
-                  },
+                    ],
+                    onReorder: (int oldIndex, int newIndex) {
+                      reorderLayer(layerInfo.layers, oldIndex, newIndex);
+                    },
+                  ),
                 ),
               ),
               Row(
@@ -171,12 +180,14 @@ class _LayerPanelState extends State<LayerPanel> {
                       onPressed: () {
                         addLayer();
                       },
-                      icon: const Icon(Icons.playlist_add)),
+                      icon: const Icon(Icons.add)),
                   IconButton(
-                      onPressed: () {
-                        removeLayer();
-                      },
-                      icon: const Icon(Icons.playlist_remove)),
+                      onPressed: layerInfo.activeLayer.layerId != -1
+                          ? () {
+                              removeLayer();
+                            }
+                          : null,
+                      icon: const Icon(Icons.remove)),
                 ],
               )
             ],

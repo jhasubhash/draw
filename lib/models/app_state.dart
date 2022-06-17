@@ -1,4 +1,4 @@
-import 'package:draw/tools/pencil.dart';
+import 'package:draw/components/tools/pencil.dart';
 import 'package:flutter/material.dart';
 
 import '../components/canvas_data.dart';

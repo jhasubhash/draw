@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:math' as math;
 
-import '../actions/actions.dart';
-import '../models/app_state.dart';
-import 'command_manager.dart';
+import '../../actions/actions.dart';
+import '../../models/app_state.dart';
+import '../command_manager.dart';
 
 class ToolsPanel extends StatefulWidget {
   ToolsPanel({Key? key}) : super(key: key);
@@ -125,11 +125,12 @@ class _ToolsPanelState extends State<ToolsPanel> {
               IconButton(
                   color: brushSelected ? Colors.white : Colors.white38,
                   icon: const Icon(Icons.brush),
-                  onPressed: () => {
+                  onPressed: null,
+                  /*() => {
                         setState(() {
                           setSelectedTool(Tool.brush);
                         })
-                      },
+                      },*/
                   //tooltip: "Paint Brush",
                   mouseCursor: MouseCursor.defer),
               Transform.rotate(
@@ -151,31 +152,34 @@ class _ToolsPanelState extends State<ToolsPanel> {
               IconButton(
                   color: panSelected ? Colors.white : Colors.white38,
                   icon: const Icon(Icons.back_hand),
-                  onPressed: () => {
+                  onPressed: null,
+                  /* () => {
                         setState(() {
                           setSelectedTool(Tool.pan);
                         })
-                      },
+                      },*/
                   //tooltip: "Pan",
                   mouseCursor: MouseCursor.defer),
               IconButton(
                   color: pickerSelected ? Colors.white : Colors.white38,
                   icon: const Icon(Icons.colorize),
-                  onPressed: () => {
+                  onPressed: null,
+                  /*() => {
                         setState(() {
                           setSelectedTool(Tool.picker);
                         })
-                      },
+                      },*/
                   //tooltip: "Color Picker",
                   mouseCursor: MouseCursor.defer),
               IconButton(
                   color: zoomSelected ? Colors.white : Colors.white38,
                   icon: const Icon(Icons.search),
-                  onPressed: () => {
+                  onPressed: null,
+                  /* () => {
                         setState(() {
                           setSelectedTool(Tool.zoom);
                         })
-                      },
+                      },*/
                   tooltip: "Zoom",
                   mouseCursor: MouseCursor.defer),
               const SizedBox(
@@ -190,12 +194,12 @@ class _ToolsPanelState extends State<ToolsPanel> {
                       Actions.handler<UndoIntent>(context, const UndoIntent()),
                   //tooltip: "Undo",
                   mouseCursor: MouseCursor.defer),
-              IconButton(
-                  color: Colors.white10,
+              const IconButton(
+                  color: Colors.white38,
                   focusColor: Colors.white,
-                  icon: const Icon(Icons.redo),
-                  onPressed: () =>
-                      CommandManager().execute(context, Command.redo),
+                  icon: Icon(Icons.redo),
+                  onPressed:
+                      null, //() => CommandManager().execute(context, Command.redo),
                   //tooltip: "Redo",
                   mouseCursor: MouseCursor.defer),
             ],

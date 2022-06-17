@@ -1,7 +1,8 @@
+import 'package:draw/components/tools/select.dart';
 import 'package:draw/components/utils.dart';
 import 'package:draw/models/app_state.dart';
-import 'package:draw/tools/lasso.dart';
-import 'package:draw/tools/pencil.dart';
+import 'package:draw/components/tools/lasso.dart';
+import 'package:draw/components/tools/pencil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -30,6 +31,8 @@ class _ToolsState extends State<Tools> {
               return const Pencil();
             case Tool.eraser:
               return const Eraser();
+            case Tool.select:
+              return const Select();
             default:
               return Container();
           }

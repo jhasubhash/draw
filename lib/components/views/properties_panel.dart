@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../actions/actions.dart';
-import '../models/app_state.dart';
-import 'colorpicker.dart';
+import '../../actions/actions.dart';
+import '../../models/app_state.dart';
+import '../colorpicker.dart';
 import 'layer_panel.dart';
 
 class PropertiesPanel extends StatefulWidget {

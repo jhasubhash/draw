@@ -1,4 +1,4 @@
-import 'package:draw/tools/undo_redo.dart';
+import 'package:draw/components/undo_redo.dart';
 import 'package:flutter/material.dart';
 
 enum Command { undo, redo }
