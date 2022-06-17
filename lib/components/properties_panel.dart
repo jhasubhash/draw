@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../actions/actions.dart';
 import '../models/app_state.dart';
 import 'colorpicker.dart';
+import 'layer_panel.dart';
 
 class PropertiesPanel extends StatefulWidget {
   PropertiesPanel({Key? key}) : super(key: key);
@@ -44,63 +45,78 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
               child: Container(
                 alignment: Alignment.topCenter,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const DrawColorPicker(),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(left: 20, top: 20),
-                      child: const Text(
-                        "Stroke Width",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    Row(
+                    Column(
                       children: [
-                        SizedBox(
-                          width: 180,
-                          child: Slider(
-                            value: prop.strokeWidth,
-                            onChanged: onStrokeWidthChange,
-                            //label: prop.strokeWidth.toStringAsFixed(1),
-                            divisions: 80,
-                            min: 0.001,
-                            max: 40,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50,
-                          child: TextField(
-                            controller: TextEditingController()
-                              ..text = prop.strokeWidth.toStringAsFixed(1),
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.all(6),
-                              isDense: true,
-                              isCollapsed: true,
-                              border: OutlineInputBorder(gapPadding: 0),
+                        const DrawColorPicker(),
+                        Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(left: 20, top: 20),
+                              child: const Text(
+                                "Stroke Width",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
-                            onSubmitted: (val) {
-                              onStrokeWidthChange(double.parse(val));
-                            },
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-9.]")),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                try {
-                                  final text = newValue.text;
-                                  if (text.isNotEmpty) double.parse(text);
-                                  return newValue;
-                                } catch (e) {}
-                                return oldValue;
-                              }),
-                            ],
-                          ),
-                        )
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 180,
+                                  child: Slider(
+                                    value: prop.strokeWidth,
+                                    onChanged: onStrokeWidthChange,
+                                    //label: prop.strokeWidth.toStringAsFixed(1),
+                                    divisions: 80,
+                                    min: 0.001,
+                                    max: 40,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                  child: TextField(
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    controller: TextEditingController()
+                                      ..text =
+                                          prop.strokeWidth.toStringAsFixed(1),
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.all(6),
+                                      isDense: true,
+                                      isCollapsed: true,
+                                      border: OutlineInputBorder(gapPadding: 0),
+                                    ),
+                                    onSubmitted: (val) {
+                                      onStrokeWidthChange(double.parse(val));
+                                    },
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r"[0-9.]")),
+                                      TextInputFormatter.withFunction(
+                                          (oldValue, newValue) {
+                                        try {
+                                          final text = newValue.text;
+                                          if (text.isNotEmpty)
+                                            double.parse(text);
+                                          return newValue;
+                                        } catch (e) {}
+                                        return oldValue;
+                                      }),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ],
-                    )
+                    ), // Stroke Width
+                    LayerPanel(),
                   ],
                 ),
               ),

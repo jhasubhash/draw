@@ -28,3 +28,13 @@ class SetStrokeWidth {
   final double strokeWidth;
   SetStrokeWidth(this.strokeWidth);
 }
+
+class SetActiveLayer {
+  final Layer activeLayer;
+  SetActiveLayer(this.activeLayer);
+}
+
+class SetLayers {
+  final List<Layer> layers;
+  SetLayers(this.layers);
+}

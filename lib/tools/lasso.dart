@@ -1,3 +1,4 @@
+import 'package:draw/components/layer_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -27,7 +28,6 @@ class _LassoToolState extends State<LassoTool> {
     final point = box.globalToLocal(details.globalPosition);
     p = Path();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
-    //Color color = shiftPressed ? Colors.transparent : pInfo.color;
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
       ..add(PathData(p, pInfo.color, selectedWidth, fillType));
     pathDataList = newPathDataList;
@@ -37,18 +37,18 @@ class _LassoToolState extends State<LassoTool> {
     final box = context.findRenderObject() as RenderBox;
     final point = box.globalToLocal(details.globalPosition);
     p.lineTo(details.localPosition.dx, details.localPosition.dy);
-    StoreProvider.of<AppState>(context).dispatch(SetPathData(pathDataList));
+    Layer layer = LayerManager(context).getActiveLayer();
+    LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
-  void onPanEnd(PathInfo pInfo, DragEndDetails details) {
-    //StoreProvider.of<AppState>(context).dispatch(SetPathData(pathDataList));
-  }
+  void onPanEnd(PathInfo pInfo, DragEndDetails details) {}
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PathInfo>(
         converter: (store) => PathInfo(
-            color: store.state.color, pathDataList: store.state.pathDataList),
+            color: store.state.color,
+            pathDataList: store.state.activeLayer.pathDataList),
         builder: (BuildContext context, PathInfo pInfo) {
           return GestureDetector(
             onPanStart: (details) => onPanStart(pInfo, details),

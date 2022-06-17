@@ -15,6 +15,9 @@ class _RightBarState extends State<RightBar> {
   bool panelVisible = false;
 
   void changePanelVisibility(BuildContext context, bool visible) {
+    setState(() {
+      panelVisible = visible;
+    });
     StoreProvider.of<AppState>(context)
         .dispatch(SetPropertiesPanelVisibility(visible));
   }
@@ -29,12 +32,9 @@ class _RightBarState extends State<RightBar> {
         margin: const EdgeInsets.only(top: 40.0),
         alignment: Alignment.topCenter,
         child: IconButton(
-          color: Colors.white38,
+          color: panelVisible ? Colors.white : Colors.white38,
           icon: const Icon(Icons.tune),
-          onPressed: () => {
-            panelVisible = !panelVisible,
-            changePanelVisibility(context, panelVisible)
-          },
+          onPressed: () => {changePanelVisibility(context, !panelVisible)},
         ),
       ),
     );

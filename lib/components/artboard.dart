@@ -20,9 +20,9 @@ class Artboard extends StatefulWidget {
 class _ArtboardState extends State<Artboard> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<PathData>>(
-        converter: (store) => store.state.pathDataList,
-        builder: (BuildContext context, List<PathData> pathDataList) {
+    return StoreConnector<AppState, List<Layer>>(
+        converter: (store) => store.state.layers,
+        builder: (BuildContext context, List<Layer> layers) {
           return Container(
             height: widget.canvasHeight,
             width: widget.canvasWidth,
@@ -37,16 +37,20 @@ class _ArtboardState extends State<Artboard> {
                 ),
               ],
             ),
-            child: RepaintBoundary(
-              child: Container(
-                  width: widget.canvasWidth,
-                  height: widget.canvasHeight,
-                  // CustomPaint widget will go here
-                  child: CanvasTouchDetector(
-                      gesturesToOverride: const [GestureType.onTapDown],
-                      builder: (context) => CustomPaint(
-                          painter: PathPainter(context, pathDataList)))),
-            ),
+            child: Stack(children: [
+              for (int idx = layers.length - 1; idx >= 0; idx--)
+                RepaintBoundary(
+                  child: Container(
+                      width: widget.canvasWidth,
+                      height: widget.canvasHeight,
+                      // CustomPaint widget will go here
+                      child: CanvasTouchDetector(
+                          gesturesToOverride: const [GestureType.onTapDown],
+                          builder: (context) => CustomPaint(
+                              painter: PathPainter(
+                                  context, layers[idx].pathDataList)))),
+                ),
+            ]),
           );
         });
   }

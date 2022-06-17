@@ -28,6 +28,7 @@ class _ColorPickerState extends State<DrawColorPicker> {
                 Container(
                   child: ColorPicker(
                     labelTypes: [],
+                    displayThumbColor: false,
                     hexInputBar: false,
                     colorPickerWidth: 250,
                     pickerAreaHeightPercent: 0.7,
@@ -43,6 +44,9 @@ class _ColorPickerState extends State<DrawColorPicker> {
                   child: SizedBox(
                     width: 75,
                     child: TextField(
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
                       controller: TextEditingController()
                         ..text = colorToHex(color, enableAlpha: false),
                       decoration: const InputDecoration(

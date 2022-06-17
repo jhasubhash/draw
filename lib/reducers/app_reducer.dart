@@ -16,5 +16,11 @@ AppState appReducer(AppState state, action) {
           : state.pathDataList,
       strokeWidth: action is SetStrokeWidth
           ? strokeWidthReducer(state.strokeWidth, action)
-          : state.strokeWidth);
+          : state.strokeWidth,
+      activeLayer: action is SetActiveLayer
+          ? activeLayerReducer(state.activeLayer, action)
+          : state.activeLayer,
+      layers: action is SetLayers
+          ? layersReducer(state.layers, action)
+          : state.layers);
 }

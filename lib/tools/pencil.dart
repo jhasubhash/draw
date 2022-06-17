@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../components/canvas_data.dart';
+import '../components/layer_manager.dart';
 import '../models/app_state.dart';
 
 class Pencil extends StatefulWidget {
@@ -31,7 +32,8 @@ class _PencilState extends State<Pencil> {
     final box = context.findRenderObject() as RenderBox;
     final point = box.globalToLocal(details.globalPosition);
     p.lineTo(details.localPosition.dx, details.localPosition.dy);
-    StoreProvider.of<AppState>(context).dispatch(SetPathData(pathDataList));
+    Layer layer = LayerManager(context).getActiveLayer();
+    LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
   void onPanEnd(PathInfo pInfo, DragEndDetails details) {
@@ -42,7 +44,8 @@ class _PencilState extends State<Pencil> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PathInfo>(
         converter: (store) => PathInfo(
-            color: store.state.color, pathDataList: store.state.pathDataList),
+            color: store.state.color,
+            pathDataList: store.state.activeLayer.pathDataList),
         builder: (BuildContext context, PathInfo pInfo) {
           return GestureDetector(
             onPanStart: (details) => onPanStart(pInfo, details),

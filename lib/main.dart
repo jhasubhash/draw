@@ -10,6 +10,7 @@ import 'components/app-canvas.dart';
 import 'components/app_cursor.dart';
 import 'components/canvas_data.dart';
 import 'components/command_manager.dart';
+import 'components/layer_manager.dart';
 import 'components/shortcut_manager.dart';
 import 'components/tools_panel.dart';
 import 'components/utils.dart';
@@ -27,7 +28,9 @@ void main() {
         propertyPanelVisible: false,
         tool: Tool.select,
         pathDataList: [PathData(Path(), Colors.black, 1.0, PathType.normal)],
-        strokeWidth: 1),
+        strokeWidth: 1,
+        activeLayer: Layer(0),
+        layers: [Layer(0)]),
   );
   print('Initial state: ${store.state}');
   runApp(StoreProvider(store: store, child: const MyApp()));

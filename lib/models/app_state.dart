@@ -11,13 +11,17 @@ class AppState {
   final Tool tool;
   final List<PathData> pathDataList;
   final double strokeWidth;
+  final Layer activeLayer;
+  final List<Layer> layers;
 
   const AppState(
       {required this.color,
       required this.propertyPanelVisible,
       required this.tool,
       required this.pathDataList,
-      required this.strokeWidth});
+      required this.strokeWidth,
+      required this.activeLayer,
+      required this.layers});
 
   @override
   String toString() {

@@ -39,3 +39,16 @@ final strokeWidthReducer =
 double _setStrokeWidthReducer(double state, SetStrokeWidth action) {
   return action.strokeWidth;
 }
+
+final activeLayerReducer =
+    TypedReducer<Layer, SetActiveLayer>(_setActiveLayerReducer);
+
+Layer _setActiveLayerReducer(Layer state, SetActiveLayer action) {
+  return action.activeLayer;
+}
+
+final layersReducer = TypedReducer<List<Layer>, SetLayers>(_setLayersReducer);
+
+List<Layer> _setLayersReducer(List<Layer> state, SetLayers action) {
+  return action.layers;
+}

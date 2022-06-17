@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 enum PathType { normal, lassoFill, lassoClear, erase }
 
+class Layer {
+  late int layerId;
+  late CustomPainter painter;
+  List<PathData> pathDataList = [];
+  Layer(this.layerId);
+}
+
 class PathData {
   Path path = Path();
   Color selectedColor = Colors.black;
