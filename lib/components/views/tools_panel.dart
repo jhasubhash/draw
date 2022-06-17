@@ -77,7 +77,6 @@ class _ToolsPanelState extends State<ToolsPanel> {
     return Container(
         width: 40,
         height: double.infinity,
-        margin: const EdgeInsets.only(top: 40.0),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(radius),
@@ -85,123 +84,126 @@ class _ToolsPanelState extends State<ToolsPanel> {
           color: Color.fromARGB(255, 53, 53, 53),
         ),
         child: Container(
-          margin: const EdgeInsets.only(top: 20.0),
+          margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
           alignment: Alignment.topCenter,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Transform.rotate(
-                angle: -math.pi / 2,
-                child: IconButton(
-                    color: selectSelected ? Colors.white : Colors.white38,
-                    icon: const Icon(Icons.near_me),
-                    onPressed: () => {
-                          setState(() {
-                            setSelectedTool(Tool.select);
-                          })
-                        },
-                    //tooltip: "Selection",
-                    mouseCursor: MouseCursor.defer),
-              ),
-              IconButton(
-                  color: lassoSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.gesture),
-                  onPressed: () => {
-                        setState(() {
-                          setSelectedTool(Tool.lasso);
-                        })
-                      },
-                  //tooltip: "Lasso",
-                  mouseCursor: MouseCursor.defer),
-              IconButton(
-                  color: pencilSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.create),
-                  onPressed: () => {
-                        setState(() {
-                          setSelectedTool(Tool.pencil);
-                        })
-                      },
-                  //tooltip: "Pencil",
-                  mouseCursor: MouseCursor.defer),
-              IconButton(
-                  color: brushSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.brush),
-                  onPressed: null,
-                  /*() => {
-                        setState(() {
-                          setSelectedTool(Tool.brush);
-                        })
-                      },*/
-                  //tooltip: "Paint Brush",
-                  mouseCursor: MouseCursor.defer),
-              Transform.rotate(
-                angle: -math.pi / 4,
-                child: Transform.scale(
-                  scaleY: 0.6,
-                  child: IconButton(
-                      color: eraserSelected ? Colors.white : Colors.white38,
-                      icon: const Icon(Icons.rectangle),
+              Column(
+                children: [
+                  Transform.rotate(
+                    angle: -math.pi / 2,
+                    child: IconButton(
+                        color: selectSelected ? Colors.white : Colors.white38,
+                        icon: const Icon(Icons.near_me),
+                        onPressed: () => {
+                              setState(() {
+                                setSelectedTool(Tool.select);
+                              })
+                            },
+                        //tooltip: "Selection",
+                        mouseCursor: MouseCursor.defer),
+                  ),
+                  IconButton(
+                      color: lassoSelected ? Colors.white : Colors.white38,
+                      icon: const Icon(Icons.gesture),
                       onPressed: () => {
                             setState(() {
-                              setSelectedTool(Tool.eraser);
+                              setSelectedTool(Tool.lasso);
                             })
                           },
-                      //tooltip: "Eraser",
+                      //tooltip: "Lasso",
                       mouseCursor: MouseCursor.defer),
-                ),
+                  IconButton(
+                      color: pencilSelected ? Colors.white : Colors.white38,
+                      icon: const Icon(Icons.create),
+                      onPressed: () => {
+                            setState(() {
+                              setSelectedTool(Tool.pencil);
+                            })
+                          },
+                      //tooltip: "Pencil",
+                      mouseCursor: MouseCursor.defer),
+                  // IconButton(
+                  //     color: brushSelected ? Colors.white : Colors.white38,
+                  //     icon: const Icon(Icons.brush),
+                  //     onPressed: null,
+                  //     /*() => {
+                  //       setState(() {
+                  //         setSelectedTool(Tool.brush);
+                  //       })
+                  //     },*/
+                  //     //tooltip: "Paint Brush",
+                  //     mouseCursor: MouseCursor.defer),
+                  Transform.rotate(
+                    angle: -math.pi / 4,
+                    child: Transform.scale(
+                      scaleY: 0.6,
+                      child: IconButton(
+                          color: eraserSelected ? Colors.white : Colors.white38,
+                          icon: const Icon(Icons.rectangle),
+                          onPressed: () => {
+                                setState(() {
+                                  setSelectedTool(Tool.eraser);
+                                })
+                              },
+                          //tooltip: "Eraser",
+                          mouseCursor: MouseCursor.defer),
+                    ),
+                  ),
+                  // IconButton(
+                  //     color: panSelected ? Colors.white : Colors.white38,
+                  //     icon: const Icon(Icons.back_hand),
+                  //     onPressed: () => {
+                  //       setState(() {
+                  //         setSelectedTool(Tool.pan);
+                  //       })
+                  //     },
+                  //     //tooltip: "Pan",
+                  //     mouseCursor: MouseCursor.defer),
+                  // IconButton(
+                  //     color: pickerSelected ? Colors.white : Colors.white38,
+                  //     icon: const Icon(Icons.colorize),
+                  //     onPressed: () => {
+                  //       setState(() {
+                  //         setSelectedTool(Tool.picker);
+                  //       })
+                  //     },
+                  //     //tooltip: "Color Picker",
+                  //     mouseCursor: MouseCursor.defer),
+                  // IconButton(
+                  //     color: zoomSelected ? Colors.white : Colors.white38,
+                  //     icon: const Icon(Icons.search),
+                  //     onPressed: () => {
+                  //       setState(() {
+                  //         setSelectedTool(Tool.zoom);
+                  //       })
+                  //     },
+                  //     tooltip: "Zoom",
+                  //     mouseCursor: MouseCursor.defer),
+                ],
               ),
-              IconButton(
-                  color: panSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.back_hand),
-                  onPressed: null,
-                  /* () => {
-                        setState(() {
-                          setSelectedTool(Tool.pan);
-                        })
-                      },*/
-                  //tooltip: "Pan",
-                  mouseCursor: MouseCursor.defer),
-              IconButton(
-                  color: pickerSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.colorize),
-                  onPressed: null,
-                  /*() => {
-                        setState(() {
-                          setSelectedTool(Tool.picker);
-                        })
-                      },*/
-                  //tooltip: "Color Picker",
-                  mouseCursor: MouseCursor.defer),
-              IconButton(
-                  color: zoomSelected ? Colors.white : Colors.white38,
-                  icon: const Icon(Icons.search),
-                  onPressed: null,
-                  /* () => {
-                        setState(() {
-                          setSelectedTool(Tool.zoom);
-                        })
-                      },*/
-                  tooltip: "Zoom",
-                  mouseCursor: MouseCursor.defer),
-              const SizedBox(
-                height: 140,
+              Column(
+                children: [
+                  IconButton(
+                      color: Colors.white38,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      icon: const Icon(Icons.undo),
+                      onPressed: Actions.handler<UndoIntent>(
+                          context, const UndoIntent()),
+                      //tooltip: "Undo",
+                      mouseCursor: MouseCursor.defer),
+                  // const IconButton(
+                  //     color: Colors.white38,
+                  //     focusColor: Colors.white,
+                  //     icon: Icon(Icons.redo),
+                  //     onPressed:
+                  //         null, //() => CommandManager().execute(context, Command.redo),
+                  //     //tooltip: "Redo",
+                  //     mouseCursor: MouseCursor.defer),
+                ],
               ),
-              IconButton(
-                  color: Colors.white38,
-                  focusColor: Colors.white,
-                  splashColor: Colors.white,
-                  icon: const Icon(Icons.undo),
-                  onPressed:
-                      Actions.handler<UndoIntent>(context, const UndoIntent()),
-                  //tooltip: "Undo",
-                  mouseCursor: MouseCursor.defer),
-              const IconButton(
-                  color: Colors.white38,
-                  focusColor: Colors.white,
-                  icon: Icon(Icons.redo),
-                  onPressed:
-                      null, //() => CommandManager().execute(context, Command.redo),
-                  //tooltip: "Redo",
-                  mouseCursor: MouseCursor.defer),
             ],
           ),
         ));

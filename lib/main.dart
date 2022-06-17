@@ -1,37 +1,18 @@
 // ignore_for_file: unnecessary_new
 
-import 'package:draw/components/artboard.dart';
-import 'package:draw/components/colorpicker.dart';
 import 'package:draw/components/views/properties_panel.dart';
 import 'package:draw/components/views/right_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
-import 'components/app_cursor.dart';
-import 'components/canvas_data.dart';
-import 'components/command_manager.dart';
-import 'components/layer_manager.dart';
 import 'components/shortcut_manager.dart';
 import 'components/views/tools_panel.dart';
-import 'components/utils.dart';
 import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 void main() {
-  final store = Store<AppState>(
-    appReducer,
-    initialState: AppState(
-        color: Colors.black,
-        propertyPanelVisible: false,
-        tool: Tool.select,
-        pathDataList: [PathData(Path(), Colors.black, 1.0, PathType.normal)],
-        strokeWidth: 1,
-        activeLayer: Layer(0),
-        layers: [Layer(0)]),
-  );
-  print('Initial state: ${store.state}');
+  final store = Store<AppState>(appReducer, initialState: getInitialState());
   runApp(StoreProvider(store: store, child: const MyApp()));
 }
 

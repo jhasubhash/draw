@@ -99,6 +99,7 @@ class _LayerPanelState extends State<LayerPanel> {
             LayerInfo(store.state.activeLayer, store.state.layers),
         builder: (BuildContext context, LayerInfo layerInfo) {
           return Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Container(
                 width: double.infinity,
@@ -113,8 +114,8 @@ class _LayerPanelState extends State<LayerPanel> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                height: 200,
                 width: double.infinity,
+                height: 150,
                 child: Theme(
                   data: ThemeData(
                     splashColor: Colors.transparent,
@@ -182,7 +183,7 @@ class _LayerPanelState extends State<LayerPanel> {
                       },
                       icon: const Icon(Icons.add)),
                   IconButton(
-                      onPressed: layerInfo.activeLayer.layerId != -1
+                      onPressed: layerInfo.activeLayer.layerId > 0
                           ? () {
                               removeLayer();
                             }

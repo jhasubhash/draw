@@ -38,3 +38,5 @@ class SetLayers {
   final List<Layer> layers;
   SetLayers(this.layers);
 }
+
+class ResetState {}
