@@ -5,6 +5,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../actions/actions.dart';
 import '../components/canvas_data.dart';
+import '../components/op_manager.dart';
+import '../components/utils.dart';
 import '../models/app_state.dart';
 
 class LassoTool extends StatefulWidget {
@@ -41,7 +43,13 @@ class _LassoToolState extends State<LassoTool> {
     LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
-  void onPanEnd(PathInfo pInfo, DragEndDetails details) {}
+  void onPanEnd(PathInfo pInfo, DragEndDetails details) {
+    DrawOperation op = DrawOperation();
+    Layer layer = LayerManager(context).getActiveLayer();
+    op.tool = Tool.lasso;
+    op.layer = layer;
+    OpManager().addOperation(op);
+  }
 
   @override
   Widget build(BuildContext context) {

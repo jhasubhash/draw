@@ -1,9 +1,11 @@
 import 'package:draw/actions/actions.dart';
+import 'package:draw/components/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../components/canvas_data.dart';
 import '../components/layer_manager.dart';
+import '../components/op_manager.dart';
 import '../models/app_state.dart';
 
 class Eraser extends StatefulWidget {
@@ -36,7 +38,11 @@ class _EraserState extends State<Eraser> {
   }
 
   void onPanEnd(PathInfo pInfo, DragEndDetails details) {
-    //StoreProvider.of<AppState>(context).dispatch(SetPathData(pathDataList));
+    DrawOperation op = DrawOperation();
+    Layer layer = LayerManager(context).getActiveLayer();
+    op.tool = Tool.eraser;
+    op.layer = layer;
+    OpManager().addOperation(op);
   }
 
   @override

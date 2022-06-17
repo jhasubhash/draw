@@ -4,6 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../components/canvas_data.dart';
 import '../components/layer_manager.dart';
+import '../components/op_manager.dart';
+import '../components/utils.dart';
 import '../models/app_state.dart';
 
 class Pencil extends StatefulWidget {
@@ -37,7 +39,11 @@ class _PencilState extends State<Pencil> {
   }
 
   void onPanEnd(PathInfo pInfo, DragEndDetails details) {
-    //StoreProvider.of<AppState>(context).dispatch(SetPathData(pathDataList));
+    DrawOperation op = DrawOperation();
+    Layer layer = LayerManager(context).getActiveLayer();
+    op.tool = Tool.lasso;
+    op.layer = layer;
+    OpManager().addOperation(op);
   }
 
   @override
