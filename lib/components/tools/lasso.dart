@@ -10,7 +10,8 @@ import '../utils.dart';
 import '../../models/app_state.dart';
 
 class LassoTool extends StatefulWidget {
-  const LassoTool({Key? key}) : super(key: key);
+  final lassoClear;
+  const LassoTool({Key? key, required this.lassoClear}) : super(key: key);
 
   @override
   State<LassoTool> createState() => _LassoToolState();
@@ -22,9 +23,9 @@ class _LassoToolState extends State<LassoTool> {
   late List<PathData> pathDataList;
 
   void onPanStart(PathInfo pInfo, DragStartDetails details) {
-    bool shiftPressed =
+    bool clear = widget.lassoClear ||
         RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft);
-    PathType fillType = shiftPressed ? PathType.lassoClear : PathType.lassoFill;
+    PathType fillType = clear ? PathType.lassoClear : PathType.lassoFill;
 
     final box = context.findRenderObject() as RenderBox;
     final point = box.globalToLocal(details.globalPosition);

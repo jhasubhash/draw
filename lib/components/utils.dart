@@ -1,6 +1,16 @@
 import 'package:flutter/services.dart';
 
-enum Tool { select, lasso, pencil, eraser, brush, pan, zoom, picker }
+enum Tool {
+  select,
+  lasso,
+  pencil,
+  eraser,
+  brush,
+  pan,
+  zoom,
+  picker,
+  lassoClear
+}
 
 enum OpAction { lassoFill, lassoErase, drawStroke, erase }
 

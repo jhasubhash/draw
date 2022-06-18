@@ -26,7 +26,9 @@ class _ToolsState extends State<Tools> {
         builder: (BuildContext context, Tool tool) {
           switch (tool) {
             case Tool.lasso:
-              return const LassoTool();
+              return const LassoTool(lassoClear: false);
+            case Tool.lassoClear:
+              return const LassoTool(lassoClear: true);
             case Tool.pencil:
               return const Pencil();
             case Tool.eraser:

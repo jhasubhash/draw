@@ -146,6 +146,7 @@ class _NewDocumentDialogState extends State<NewDocumentDialog> {
       ),
       actions: <Widget>[
         TextButton(
+          autofocus: true,
           child: const Text('Ok'),
           onPressed: () {
             Navigator.of(context).pop();

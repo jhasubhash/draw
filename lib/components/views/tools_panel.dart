@@ -26,6 +26,7 @@ class _ToolsPanelState extends State<ToolsPanel> {
   bool lassoSelected = false;
   bool selectSelected = true;
   bool eraserSelected = false;
+  bool lassoClearSelected = false;
 
   void resetAllTools() {
     zoomSelected = false;
@@ -37,6 +38,7 @@ class _ToolsPanelState extends State<ToolsPanel> {
     lassoSelected = false;
     selectSelected = false;
     eraserSelected = false;
+    lassoClearSelected = false;
   }
 
   void setSelectedTool(Tool tool) {
@@ -65,6 +67,9 @@ class _ToolsPanelState extends State<ToolsPanel> {
         break;
       case Tool.eraser:
         eraserSelected = true;
+        break;
+      case Tool.lassoClear:
+        lassoClearSelected = true;
         break;
       default:
         break;
@@ -104,16 +109,41 @@ class _ToolsPanelState extends State<ToolsPanel> {
                         //tooltip: "Selection",
                         mouseCursor: MouseCursor.defer),
                   ),
-                  IconButton(
-                      color: lassoSelected ? Colors.white : Colors.white38,
-                      icon: const Icon(Icons.gesture),
-                      onPressed: () => {
-                            setState(() {
-                              setSelectedTool(Tool.lasso);
-                            })
-                          },
-                      //tooltip: "Lasso",
-                      mouseCursor: MouseCursor.defer),
+                  Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+                    IconButton(
+                        color: lassoSelected ? Colors.white : Colors.white38,
+                        icon: const Icon(Icons.gesture_outlined),
+                        onPressed: () => {
+                              setState(() {
+                                setSelectedTool(Tool.lasso);
+                              })
+                            },
+                        //tooltip: "Lasso",
+                        mouseCursor: MouseCursor.defer),
+                    Text("+ ",
+                        style: TextStyle(
+                          color: lassoSelected ? Colors.white : Colors.white38,
+                        )),
+                  ]),
+                  Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+                    IconButton(
+                        color:
+                            lassoClearSelected ? Colors.white : Colors.white38,
+                        icon: const Icon(Icons.gesture_outlined),
+                        onPressed: () => {
+                              setState(() {
+                                setSelectedTool(Tool.lassoClear);
+                              })
+                            },
+                        //tooltip: "Lasso",
+                        mouseCursor: MouseCursor.defer),
+                    Text("- ",
+                        style: TextStyle(
+                          color: lassoClearSelected
+                              ? Colors.white
+                              : Colors.white38,
+                        )),
+                  ]),
                   IconButton(
                       color: pencilSelected ? Colors.white : Colors.white38,
                       icon: const Icon(Icons.create),
