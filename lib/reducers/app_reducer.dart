@@ -10,15 +10,24 @@ AppState getInitialState() {
       color: Colors.black,
       propertyPanelVisible: false,
       tool: Tool.select,
-      pathDataList: [PathData(Path(), Colors.black, 1.0, PathType.normal)],
       strokeWidth: 1,
+      artboardWidth: 800,
+      artboardHeight: 600,
       activeLayer: Layer(0),
       layers: [Layer(0)]);
 }
 
 AppState appReducer(AppState state, action) {
-  if (action is ResetState) {
-    return getInitialState();
+  if (action is NewDocument) {
+    return AppState(
+        color: state.color,
+        propertyPanelVisible: state.propertyPanelVisible,
+        tool: state.tool,
+        strokeWidth: state.strokeWidth,
+        activeLayer: Layer(0),
+        layers: [Layer(0)],
+        artboardWidth: action.artboardWidth,
+        artboardHeight: action.artboardHeight);
   }
   return AppState(
       color:
@@ -27,9 +36,6 @@ AppState appReducer(AppState state, action) {
           ? propPanelVisibleReducer(state.propertyPanelVisible, action)
           : state.propertyPanelVisible,
       tool: action is SetTool ? toolReducer(state.tool, action) : state.tool,
-      pathDataList: action is SetPathData
-          ? pathDataReducer(state.pathDataList, action)
-          : state.pathDataList,
       strokeWidth: action is SetStrokeWidth
           ? strokeWidthReducer(state.strokeWidth, action)
           : state.strokeWidth,
@@ -38,5 +44,11 @@ AppState appReducer(AppState state, action) {
           : state.activeLayer,
       layers: action is SetLayers
           ? layersReducer(state.layers, action)
-          : state.layers);
+          : state.layers,
+      artboardWidth: action is SetArtboardWidth
+          ? artboardWidthReducer(state.artboardWidth, action)
+          : state.artboardWidth,
+      artboardHeight: action is SetArtboardHeight
+          ? artboardHeightReducer(state.artboardHeight, action)
+          : state.artboardHeight);
 }

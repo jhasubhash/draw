@@ -190,8 +190,8 @@ class _ToolsPanelState extends State<ToolsPanel> {
                       focusColor: Colors.white,
                       splashColor: Colors.white,
                       icon: const Icon(Icons.undo),
-                      onPressed: Actions.handler<UndoIntent>(
-                          context, const UndoIntent()),
+                      onPressed: () =>
+                          CommandManager().execute(context, Command.undo),
                       //tooltip: "Undo",
                       mouseCursor: MouseCursor.defer),
                   // const IconButton(

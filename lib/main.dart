@@ -3,8 +3,9 @@
 import 'package:draw/components/views/properties_panel.dart';
 import 'package:draw/components/views/right_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
-import 'components/shortcut_manager.dart';
+import 'components/command_manager.dart';
 import 'components/views/tools_panel.dart';
 import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
@@ -41,53 +42,88 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final FocusNode _mainAppfocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _mainAppfocus.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mainAppfocus.removeListener(_onFocusChange);
+    _mainAppfocus.dispose();
+  }
+
+  void _onFocusChange() {
+    debugPrint("Mainapp Focus: ${_mainAppfocus.hasFocus.toString()}");
+    if (!_mainAppfocus.hasFocus) {
+      FocusNode? _focusNode = FocusScope.of(context).focusedChild;
+      if (_focusNode == null) {
+        _mainAppfocus.requestFocus();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double totalHeight = MediaQuery.of(context).size.height;
     double totalWidth = MediaQuery.of(context).size.width;
 
-    return FocusableActionDetector(
-      autofocus: true,
-      shortcuts: getShortcuts(),
-      actions: getActions(context),
-      child: Builder(builder: (context) {
-        return Scaffold(
-            body: Container(
-          color: Colors.grey,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: totalWidth,
-                  height: totalHeight,
-                  child:
-                      Stack(alignment: AlignmentDirectional.center, children: [
-                    AppCanvas(),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyZ, meta: true): () =>
+            CommandManager().execute(context, Command.undo),
+        const SingleActivator(LogicalKeyboardKey.keyN, meta: true): () =>
+            CommandManager().execute(context, Command.newDoc),
+      },
+      child: Focus(
+        autofocus: true,
+        canRequestFocus: true,
+        focusNode: _mainAppfocus,
+        child: Builder(builder: (context) {
+          return Scaffold(
+              body: Container(
+            color: Colors.grey,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: totalWidth,
+                    height: totalHeight,
+                    child: Stack(
+                        alignment: AlignmentDirectional.center,
                         children: [
+                          AppCanvas(),
                           Container(
-                              margin: const EdgeInsets.only(
-                                  top: 30.0, bottom: 30.0),
-                              child: PropertiesPanel()),
-                          RightBar(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      margin: const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                      child: ToolsPanel(),
-                    ),
-                  ]),
-                ),
-              ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 30.0, bottom: 30.0),
+                                    child: PropertiesPanel()),
+                                RightBar(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin:
+                                const EdgeInsets.only(top: 50.0, bottom: 50.0),
+                            child: ToolsPanel(),
+                          ),
+                        ]),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ));
-      }),
+          ));
+        }),
+      ),
     );
   }
 }

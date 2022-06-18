@@ -9,19 +9,22 @@ class AppState {
   final Color color;
   final bool propertyPanelVisible;
   final Tool tool;
-  final List<PathData> pathDataList;
   final double strokeWidth;
   final Layer activeLayer;
   final List<Layer> layers;
+  final double artboardWidth;
+  final double artboardHeight;
 
-  const AppState(
-      {required this.color,
-      required this.propertyPanelVisible,
-      required this.tool,
-      required this.pathDataList,
-      required this.strokeWidth,
-      required this.activeLayer,
-      required this.layers});
+  const AppState({
+    required this.color,
+    required this.propertyPanelVisible,
+    required this.tool,
+    required this.strokeWidth,
+    required this.activeLayer,
+    required this.layers,
+    required this.artboardWidth,
+    required this.artboardHeight,
+  });
 
   @override
   String toString() {

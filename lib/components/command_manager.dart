@@ -1,7 +1,9 @@
-import 'package:draw/components/undo_redo.dart';
+import 'package:draw/components/commands/undo_redo.dart';
 import 'package:flutter/material.dart';
 
-enum Command { undo, redo }
+import 'commands/new_document.dart';
+
+enum Command { undo, redo, newDoc }
 
 class CommandManager {
   static final CommandManager _instance = CommandManager._internal();
@@ -22,23 +24,11 @@ class CommandManager {
       case Command.redo:
         redo(context);
         break;
+      case Command.newDoc:
+        newDocument(context);
+        break;
       default:
         break;
     }
-  }
-}
-
-class UndoIntent extends Intent {
-  const UndoIntent();
-}
-
-class UndoAction extends Action<UndoIntent> {
-  final context;
-  UndoAction(this.context);
-
-  @override
-  Object? invoke(UndoIntent intent) {
-    CommandManager().execute(context, Command.undo);
-    return null;
   }
 }

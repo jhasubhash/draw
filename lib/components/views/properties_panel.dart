@@ -1,3 +1,4 @@
+import 'package:draw/components/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -6,6 +7,7 @@ import '../../actions/actions.dart';
 import '../../models/app_state.dart';
 import '../colorpicker.dart';
 import 'layer_panel.dart';
+import 'dart:math';
 
 class PropertiesPanel extends StatefulWidget {
   PropertiesPanel({Key? key}) : super(key: key);
@@ -20,9 +22,37 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
   Offset offset1 = Offset.zero;
   Offset offset2 = const Offset(1, 0);
   double strokeWidth = 1;
+  double maxStrokeWidthVal = 40;
+  double minStrokeWidthVal = 0.001;
+  late TextEditingController _strokeController = TextEditingController();
+
+  FocusNode _strokefocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _strokefocus.addListener(_onFocusChange);
+    _strokeController.text = strokeWidth.toStringAsFixed(1);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _strokefocus.removeListener(_onFocusChange);
+    _strokefocus.dispose();
+  }
+
+  void _onFocusChange() {
+    debugPrint("Focus: ${_strokefocus.hasFocus.toString()}");
+  }
 
   void onStrokeWidthChange(val) {
+    if (!_strokefocus.hasFocus) {
+      _strokeController.text = val.toStringAsFixed(1);
+    }
     setState(() {
+      val = min<double>(val, maxStrokeWidthVal);
+      val = max<double>(minStrokeWidthVal, val);
       strokeWidth = val;
       StoreProvider.of<AppState>(context).dispatch(SetStrokeWidth(strokeWidth));
     });
@@ -72,8 +102,8 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
                                     onChanged: onStrokeWidthChange,
                                     //label: prop.strokeWidth.toStringAsFixed(1),
                                     divisions: 80,
-                                    min: 0.001,
-                                    max: 40,
+                                    min: minStrokeWidthVal,
+                                    max: maxStrokeWidthVal,
                                   ),
                                 ),
                                 SizedBox(
@@ -82,32 +112,18 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
                                     style: const TextStyle(
                                       fontSize: 14,
                                     ),
-                                    controller: TextEditingController()
-                                      ..text =
-                                          prop.strokeWidth.toStringAsFixed(1),
+                                    controller: _strokeController,
                                     decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.all(6),
                                       isDense: true,
                                       isCollapsed: true,
                                       border: OutlineInputBorder(gapPadding: 0),
                                     ),
-                                    onSubmitted: (val) {
+                                    onChanged: (val) {
                                       onStrokeWidthChange(double.parse(val));
                                     },
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r"[0-9.]")),
-                                      TextInputFormatter.withFunction(
-                                          (oldValue, newValue) {
-                                        try {
-                                          final text = newValue.text;
-                                          if (text.isNotEmpty)
-                                            double.parse(text);
-                                          return newValue;
-                                        } catch (e) {}
-                                        return oldValue;
-                                      }),
-                                    ],
+                                    focusNode: _strokefocus,
+                                    inputFormatters: DigitInputFormatter,
                                   ),
                                 )
                               ],

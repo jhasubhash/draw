@@ -26,13 +26,6 @@ Tool _setToolReducer(Tool state, SetTool action) {
   return action.tool;
 }
 
-final pathDataReducer =
-    TypedReducer<List<PathData>, SetPathData>(_setPathDataReducer);
-
-List<PathData> _setPathDataReducer(List<PathData> state, SetPathData action) {
-  return action.pathDataList;
-}
-
 final strokeWidthReducer =
     TypedReducer<double, SetStrokeWidth>(_setStrokeWidthReducer);
 
@@ -51,4 +44,18 @@ final layersReducer = TypedReducer<List<Layer>, SetLayers>(_setLayersReducer);
 
 List<Layer> _setLayersReducer(List<Layer> state, SetLayers action) {
   return action.layers;
+}
+
+final artboardWidthReducer =
+    TypedReducer<double, SetArtboardWidth>(_setArtboardWidthReducer);
+
+double _setArtboardWidthReducer(double state, SetArtboardWidth action) {
+  return action.artboardWidth;
+}
+
+final artboardHeightReducer =
+    TypedReducer<double, SetArtboardHeight>(_setArtboardHeightReducer);
+
+double _setArtboardHeightReducer(double state, SetArtboardHeight action) {
+  return action.artboardHeight;
 }

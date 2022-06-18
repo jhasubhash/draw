@@ -19,11 +19,6 @@ class SetTool {
   SetTool(this.tool);
 }
 
-class SetPathData {
-  final List<PathData> pathDataList;
-  SetPathData(this.pathDataList);
-}
-
 class SetStrokeWidth {
   final double strokeWidth;
   SetStrokeWidth(this.strokeWidth);
@@ -40,3 +35,19 @@ class SetLayers {
 }
 
 class ResetState {}
+
+class NewDocument {
+  final double artboardHeight;
+  final double artboardWidth;
+  NewDocument(this.artboardHeight, this.artboardWidth);
+}
+
+class SetArtboardWidth {
+  final double artboardWidth;
+  SetArtboardWidth(this.artboardWidth);
+}
+
+class SetArtboardHeight {
+  final double artboardHeight;
+  SetArtboardHeight(this.artboardHeight);
+}
