@@ -1,3 +1,4 @@
+import 'package:draw/components/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -24,6 +25,10 @@ class _AppCanvasState extends State<AppCanvas> {
   double cursorSize = 6;
   bool canvasActive = false;
 
+  bool IsSelectToolActive() {
+    return StoreProvider.of<AppState>(context).state.tool == Tool.select;
+  }
+
   @override
   Widget build(BuildContext context) {
     double totalHeight = MediaQuery.of(context).size.height;
@@ -45,10 +50,12 @@ class _AppCanvasState extends State<AppCanvas> {
               });
             },
             child: MouseRegion(
-              cursor: SystemMouseCursors.none,
+              cursor: !IsSelectToolActive()
+                  ? SystemMouseCursors.none
+                  : SystemMouseCursors.basic,
               onEnter: (event) {
                 setState(() {
-                  canvasActive = true;
+                  canvasActive = !IsSelectToolActive() ? true : false;
                 });
               },
               onExit: (event) {

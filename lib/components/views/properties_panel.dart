@@ -120,7 +120,9 @@ class _PropertiesPanelState extends State<PropertiesPanel> {
                                       border: OutlineInputBorder(gapPadding: 0),
                                     ),
                                     onChanged: (val) {
-                                      onStrokeWidthChange(double.parse(val));
+                                      if (val.isNotEmpty) {
+                                        onStrokeWidthChange(double.parse(val));
+                                      }
                                     },
                                     focusNode: _strokefocus,
                                     inputFormatters: DigitInputFormatter,
