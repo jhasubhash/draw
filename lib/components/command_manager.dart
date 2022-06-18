@@ -2,8 +2,9 @@ import 'package:draw/components/commands/undo_redo.dart';
 import 'package:flutter/material.dart';
 
 import 'commands/new_document.dart';
+import 'commands/open_save.dart';
 
-enum Command { undo, redo, newDoc }
+enum Command { undo, redo, newDoc, save, open }
 
 class CommandManager {
   static final CommandManager _instance = CommandManager._internal();
@@ -26,6 +27,12 @@ class CommandManager {
         break;
       case Command.newDoc:
         newDocument(context);
+        break;
+      case Command.save:
+        save(context);
+        break;
+      case Command.open:
+        open(context);
         break;
       default:
         break;

@@ -78,6 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
             CommandManager().execute(context, Command.undo),
         const SingleActivator(LogicalKeyboardKey.keyN, meta: true): () =>
             CommandManager().execute(context, Command.newDoc),
+        const SingleActivator(LogicalKeyboardKey.keyS, meta: true): () =>
+            CommandManager().execute(context, Command.save),
+        const SingleActivator(LogicalKeyboardKey.keyO, meta: true): () =>
+            CommandManager().execute(context, Command.open),
       },
       child: Focus(
         autofocus: true,

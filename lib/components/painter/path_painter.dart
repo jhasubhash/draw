@@ -77,7 +77,7 @@ class PathPainter extends CustomPainter {
       1
     ];
     Float64List mat = Float64List.fromList(ll);
-    pathData.path = pathData.path.transform(mat);
+    pathData.path.transform(mat);
     newLayers[layerIdx].pathDataList[pathIdx] = pathData;
     LayerManager(context).setLayers(newLayers);
   }
@@ -98,7 +98,7 @@ class PathPainter extends CustomPainter {
         paint.blendMode = getBlendMode(pathData.pathType);
         paint.strokeCap = StrokeCap.round;
         myCanvas.drawPath(
-          pathData.path,
+          pathData.path.path,
           paint,
           onTapDown: (tapdetail) {},
           onPanStart: (detail) => onPanStart(detail, layerIdx, pathIdx),

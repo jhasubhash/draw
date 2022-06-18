@@ -20,7 +20,6 @@ class _NewDocumentDialogState extends State<NewDocumentDialog> {
   double artboardWidth = 800;
 
   void onOk(context) {
-    print("width ${artboardWidth} height ${artboardHeight}");
     StoreProvider.of<AppState>(context)
         .dispatch(NewDocument(artboardHeight, artboardWidth));
   }

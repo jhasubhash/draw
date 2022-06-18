@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../canvas_data.dart';
+import '../custom/path.dart';
 import '../layer_manager.dart';
 import '../op_manager.dart';
 import '../utils.dart';
@@ -16,14 +17,14 @@ class Pencil extends StatefulWidget {
 
 class _PencilState extends State<Pencil> {
   double selectedWidth = 1.0;
-  Path p = Path();
+  DPath p = DPath();
   late List<PathData> pathDataList;
 
   void onPanStart(PathInfo pInfo, DragStartDetails details) {
     final box = context.findRenderObject() as RenderBox;
     final point = box.globalToLocal(details.globalPosition);
     final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
-    p = Path();
+    p = DPath();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
       ..add(PathData(p, pInfo.color, pathWidth, PathType.normal));
