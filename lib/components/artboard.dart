@@ -1,3 +1,4 @@
+import 'package:draw/components/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:touchable/touchable.dart';
@@ -18,6 +19,16 @@ class Artboard extends StatefulWidget {
 }
 
 class _ArtboardState extends State<Artboard> {
+  getGesturesToOverride() {
+    var overrideList = [GestureType.onTapDown];
+    if (IsSelectToolActive(context)) {
+      overrideList.add(GestureType.onPanStart);
+      overrideList.add(GestureType.onPanUpdate);
+      overrideList.add(GestureType.onPanDown);
+    }
+    return overrideList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<Layer>>(
@@ -37,20 +48,16 @@ class _ArtboardState extends State<Artboard> {
                 ),
               ],
             ),
-            child: Stack(children: [
-              for (int idx = layers.length - 1; idx >= 0; idx--)
-                RepaintBoundary(
-                  child: Container(
-                      width: widget.canvasWidth,
-                      height: widget.canvasHeight,
-                      // CustomPaint widget will go here
-                      child: CanvasTouchDetector(
-                          gesturesToOverride: const [GestureType.onTapDown],
-                          builder: (context) => CustomPaint(
-                              painter: PathPainter(
-                                  context, layers[idx].pathDataList)))),
-                ),
-            ]),
+            child: RepaintBoundary(
+              child: Container(
+                  width: widget.canvasWidth,
+                  height: widget.canvasHeight,
+                  // CustomPaint widget will go here
+                  child: CanvasTouchDetector(
+                      gesturesToOverride: getGesturesToOverride(),
+                      builder: (context) =>
+                          CustomPaint(painter: PathPainter(context, layers)))),
+            ),
           );
         });
   }

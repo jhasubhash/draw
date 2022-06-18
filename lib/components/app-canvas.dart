@@ -25,10 +25,6 @@ class _AppCanvasState extends State<AppCanvas> {
   double cursorSize = 6;
   bool canvasActive = false;
 
-  bool IsSelectToolActive() {
-    return StoreProvider.of<AppState>(context).state.tool == Tool.select;
-  }
-
   @override
   Widget build(BuildContext context) {
     double totalHeight = MediaQuery.of(context).size.height;
@@ -50,12 +46,12 @@ class _AppCanvasState extends State<AppCanvas> {
               });
             },
             child: MouseRegion(
-              cursor: !IsSelectToolActive()
+              cursor: !IsSelectToolActive(context)
                   ? SystemMouseCursors.none
                   : SystemMouseCursors.basic,
               onEnter: (event) {
                 setState(() {
-                  canvasActive = !IsSelectToolActive() ? true : false;
+                  canvasActive = !IsSelectToolActive(context) ? true : false;
                 });
               },
               onExit: (event) {

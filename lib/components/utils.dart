@@ -1,4 +1,7 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
+import '../models/app_state.dart';
 
 enum Tool {
   select,
@@ -25,3 +28,7 @@ var DigitInputFormatter = <TextInputFormatter>[
     return oldValue;
   }),
 ];
+
+bool IsSelectToolActive(context) {
+  return StoreProvider.of<AppState>(context).state.tool == Tool.select;
+}
