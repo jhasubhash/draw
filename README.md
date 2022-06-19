@@ -1,6 +1,6 @@
 # Draw ++
 
-This is drawing app focussed mainly towards creating artwork with minimal use stylus. 
+This is drawing app focussed mainly towards creating artwork with minimal use of stylus. 
 If you have a mouse and want to create some quick rough artwork then you can give it a try.
 
 ## Platform Support
