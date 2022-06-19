@@ -97,8 +97,8 @@ class PathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var myCanvas = TouchyCanvas(context, canvas);
-    canvas.saveLayer(Rect.largest, Paint());
     for (int layerIdx = layers.length - 1; layerIdx >= 0; layerIdx--) {
+      canvas.saveLayer(Rect.largest, Paint());
       for (int pathIdx = 0;
           pathIdx < layers[layerIdx].pathDataList.length;
           pathIdx++) {
@@ -118,8 +118,8 @@ class PathPainter extends CustomPainter {
           onPanDown: (detail) => onPanDown(detail, layerIdx, pathIdx),
         );
       }
+      canvas.restore();
     }
-    canvas.restore();
   }
 
   @override
