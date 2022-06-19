@@ -1,11 +1,11 @@
 {
-    "name": "draw",
-    "short_name": "draw",
+    "name": "Draw ++",
+    "short_name": "Draw ++",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Another drawing app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
