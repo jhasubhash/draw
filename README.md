@@ -3,7 +3,7 @@
 This is drawing app focussed mainly towards creating artwork with minimal use stylus. 
 If you have a mouse and want to create some quick rough artwork then you can give it a try.
 
-# Platform Support
+## Platform Support
 The first release only supports MacOS.
 Support for windows and web is coming soom.
 
