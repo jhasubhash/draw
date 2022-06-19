@@ -12,7 +12,11 @@ import '../canvas_data.dart';
 import '../layer_manager.dart';
 
 void open(BuildContext context) async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    dialogTitle: "Pick Art",
+    allowedExtensions: ['json'],
+    type: FileType.custom,
+  );
   if (result != null) {
     File file = File(result.files.single.path!);
     var content = await file.readAsString();
@@ -52,9 +56,10 @@ void save(BuildContext context) async {
   var outData = jsonEncode(data);
   //print(content);
   String? outputFile = await FilePicker.platform.saveFile(
-    dialogTitle: 'Please select an output file:',
+    dialogTitle: 'Save Art:',
     fileName: 'output.json',
     allowedExtensions: ['json'],
+    type: FileType.custom,
   );
   if (outputFile == null) {
     // User canceled the picker

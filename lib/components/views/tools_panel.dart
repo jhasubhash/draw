@@ -224,6 +224,24 @@ class _ToolsPanelState extends State<ToolsPanel> {
                           CommandManager().execute(context, Command.undo),
                       //tooltip: "Undo",
                       mouseCursor: MouseCursor.defer),
+                  IconButton(
+                      color: Colors.white38,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      icon: const Icon(Icons.file_open),
+                      onPressed: () =>
+                          CommandManager().execute(context, Command.open),
+                      //tooltip: "open",
+                      mouseCursor: MouseCursor.defer),
+                  IconButton(
+                      color: Colors.white38,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      icon: const Icon(Icons.save),
+                      onPressed: () =>
+                          CommandManager().execute(context, Command.save),
+                      //tooltip: "save",
+                      mouseCursor: MouseCursor.defer),
                   // const IconButton(
                   //     color: Colors.white38,
                   //     focusColor: Colors.white,
