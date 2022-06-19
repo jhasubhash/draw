@@ -36,29 +36,23 @@ class _ArtboardState extends State<Artboard> {
     return StoreConnector<AppState, List<Layer>>(
         converter: (store) => store.state.layers,
         builder: (BuildContext context, List<Layer> layers) {
-          return Container(
-            height: widget.canvasHeight,
-            width: widget.canvasWidth,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(3, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: RepaintBoundary(
-              child: Container(
-                  width: widget.canvasWidth,
-                  height: widget.canvasHeight,
-                  // CustomPaint widget will go here
-                  child: CanvasTouchDetector(
-                      gesturesToOverride: getGesturesToOverride(),
-                      builder: (context) =>
-                          CustomPaint(painter: PathPainter(context, layers)))),
+          return ClipRect(
+            child: Container(
+              height: widget.canvasHeight,
+              width: widget.canvasWidth,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: RepaintBoundary(
+                child: Container(
+                    width: widget.canvasWidth,
+                    height: widget.canvasHeight,
+                    // CustomPaint widget will go here
+                    child: CanvasTouchDetector(
+                        gesturesToOverride: getGesturesToOverride(),
+                        builder: (context) => CustomPaint(
+                            painter: PathPainter(context, layers)))),
+              ),
             ),
           );
         });

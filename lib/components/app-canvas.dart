@@ -70,20 +70,29 @@ class _AppCanvasState extends State<AppCanvas> {
                     maxScale: 1000,
                     child: Align(
                       alignment: Alignment.center,
-                      child: ClipRect(
-                        child: Container(
-                          width: size.width,
-                          height: size.height,
-                          child: LayoutBuilder(builder: (BuildContext context,
-                              BoxConstraints constraints) {
-                            return Stack(children: [
-                              Artboard(
-                                  canvasHeight: constraints.maxHeight,
-                                  canvasWidth: constraints.maxWidth),
-                              const Tools(),
-                            ]);
-                          }),
+                      child: Container(
+                        width: size.width,
+                        height: size.height,
+                        decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 3,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(3, 3), // changes position of shadow
+                            ),
+                          ],
                         ),
+                        child: LayoutBuilder(builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          return Stack(children: [
+                            Artboard(
+                                canvasHeight: constraints.maxHeight,
+                                canvasWidth: constraints.maxWidth),
+                            const Tools(),
+                          ]);
+                        }),
                       ),
                     ),
                   ),
