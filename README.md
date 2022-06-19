@@ -4,8 +4,9 @@ This drawing app focussed mainly towards creating artwork with minimal use of st
 If you have a mouse and want to create some quick rough artwork then you can give it a try.
 
 ## Platform Support
-The first release only supports MacOS.
-Support for windows and web is coming soom.
+The first release only supports MacOS and is accessible on web https://subhashjha.in/draw/.
+
+Support for windows is coming soom.
 
 ## Snapshots
 
