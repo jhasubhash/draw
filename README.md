@@ -1,16 +1,13 @@
-# draw
+# Draw ++
 
-A new Flutter project.
+This is drawing app focussed mainly towards creating artwork with minimal use stylus. 
+If you have a mouse and want to create some quick rough artwork then you can give it a try.
 
-## Getting Started
+# Platform Support
+The first release only supports MacOS.
+Support for windows and web is coming soom.
 
-This project is a starting point for a Flutter application.
+## Snapshots
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="1817" alt="Screenshot 2022-06-19 at 12 11 12 PM" src="https://user-images.githubusercontent.com/6642240/174469325-1efd4f6c-6d65-4e11-a8f2-96a073d58335.png">
