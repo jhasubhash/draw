@@ -7,6 +7,9 @@ import 'package:touchable/touchable.dart';
 import '../canvas_data.dart';
 
 Offset initialOffset = const Offset(0, 0);
+bool dragInProgress = false;
+int pathIndex = -1;
+int layerIndex = -1;
 
 class PathPainter extends CustomPainter {
   late List<Layer> layers;
@@ -48,11 +51,20 @@ class PathPainter extends CustomPainter {
     }
   }
 
+  void onPanDown(DragDownDetails detail, int layerIdx, int pathIdx) {}
+
   void onPanStart(DragStartDetails detail, int layerIdx, int pathIdx) {
     initialOffset = detail.globalPosition;
+    dragInProgress = true;
+    pathIndex = pathIdx;
+    layerIndex = layerIdx;
+    //print('onPanStart');
   }
 
   void onPanUpdate(DragUpdateDetails detail, int layerIdx, int pathIdx) {
+    // if (dragInProgress && pathIndex != pathIdx && layerIndex != layerIdx) {
+    //   return;
+    // }
     var newLayers = List<Layer>.from(layers);
     PathData pathData = newLayers[layerIdx].pathDataList[pathIdx];
     Offset diff = detail.globalPosition - initialOffset;
@@ -103,6 +115,7 @@ class PathPainter extends CustomPainter {
           onTapDown: (tapdetail) {},
           onPanStart: (detail) => onPanStart(detail, layerIdx, pathIdx),
           onPanUpdate: (detail) => onPanUpdate(detail, layerIdx, pathIdx),
+          onPanDown: (detail) => onPanDown(detail, layerIdx, pathIdx),
         );
       }
     }

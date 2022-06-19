@@ -25,6 +25,8 @@ class _ArtboardState extends State<Artboard> {
       overrideList.add(GestureType.onPanStart);
       overrideList.add(GestureType.onPanUpdate);
       overrideList.add(GestureType.onPanDown);
+      overrideList.add(GestureType.onTapUp);
+      overrideList.add(GestureType.onLongPressEnd);
     }
     return overrideList;
   }
