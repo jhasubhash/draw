@@ -1,8 +1,11 @@
 import 'dart:convert';
+
+import 'package:universal_html/html.dart' as html;
 import 'dart:io';
 
 import 'package:draw/components/commands/new_document.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -17,9 +20,16 @@ void open(BuildContext context) async {
     allowedExtensions: ['json'],
     type: FileType.custom,
   );
+  String content = "";
   if (result != null) {
-    File file = File(result.files.single.path!);
-    var content = await file.readAsString();
+    if (kIsWeb) {
+      final fileBytes = result.files.first.bytes;
+      final fileName = result.files.first.name;
+      content = utf8.decode(fileBytes!);
+    } else {
+      File file = File(result.files.single.path!);
+      content = await file.readAsString();
+    }
     var jsonContent = jsonDecode(content);
     var data = jsonDecode(jsonContent['layers']);
     double artboardHeight = jsonContent['height'];
@@ -55,16 +65,22 @@ void save(BuildContext context) async {
   };
   var outData = jsonEncode(data);
   //print(content);
-  String? outputFile = await FilePicker.platform.saveFile(
-    dialogTitle: 'Save Art:',
-    fileName: 'output.json',
-    allowedExtensions: ['json'],
-    type: FileType.custom,
-  );
-  if (outputFile == null) {
-    // User canceled the picker
-    return;
+  if (kIsWeb) {
+    final anchor = html.AnchorElement(href: "data:application/json,$outData")
+      ..setAttribute("download", "art.json")
+      ..click();
+  } else {
+    String? outputFile = await FilePicker.platform.saveFile(
+      dialogTitle: 'Save Art:',
+      fileName: 'output.json',
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+    );
+    if (outputFile == null) {
+      // User canceled the picker
+      return;
+    }
+    final file = File(outputFile);
+    file.writeAsString(outData);
   }
-  final file = File(outputFile);
-  file.writeAsString(outData);
 }
