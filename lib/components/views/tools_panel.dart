@@ -228,7 +228,16 @@ class _ToolsPanelState extends State<ToolsPanel> {
                       color: Colors.white38,
                       focusColor: Colors.white,
                       splashColor: Colors.white,
-                      icon: const Icon(Icons.file_open),
+                      icon: const Icon(Icons.insert_drive_file),
+                      onPressed: () =>
+                          CommandManager().execute(context, Command.newDoc),
+                      //tooltip: "open",
+                      mouseCursor: MouseCursor.defer),
+                  IconButton(
+                      color: Colors.white38,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      icon: const Icon(Icons.folder_open),
                       onPressed: () =>
                           CommandManager().execute(context, Command.open),
                       //tooltip: "open",
