@@ -20,7 +20,7 @@ class LayerInfo {
 }
 
 class _LayerPanelState extends State<LayerPanel> {
-  int nextLayerId = 1;
+  int nextLayerId = 2;
 
   void addLayer() {
     Layer layer = Layer(nextLayerId++);

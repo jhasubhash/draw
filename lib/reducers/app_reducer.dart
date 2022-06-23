@@ -13,8 +13,8 @@ AppState getInitialState() {
       strokeWidth: 1,
       artboardWidth: 800,
       artboardHeight: 600,
-      activeLayer: Layer(0),
-      layers: [Layer(0)],
+      activeLayer: Layer(1),
+      layers: [Layer(1), Layer(0)],
       savePanelVisible: false);
 }
 
@@ -25,8 +25,8 @@ AppState appReducer(AppState state, action) {
         propertyPanelVisible: state.propertyPanelVisible,
         tool: state.tool,
         strokeWidth: state.strokeWidth,
-        activeLayer: Layer(0),
-        layers: [Layer(0)],
+        activeLayer: Layer(1),
+        layers: [Layer(1), Layer(0)],
         artboardWidth: action.artboardWidth,
         artboardHeight: action.artboardHeight,
         savePanelVisible: false);
