@@ -59,3 +59,10 @@ final artboardHeightReducer =
 double _setArtboardHeightReducer(double state, SetArtboardHeight action) {
   return action.artboardHeight;
 }
+
+final savePanelVisibilityReducer =
+    TypedReducer<bool, SetSavePanelVisibility>(_setSavePanelVisibilityReducer);
+
+bool _setSavePanelVisibilityReducer(bool state, SetSavePanelVisibility action) {
+  return action.savePanelVisible;
+}

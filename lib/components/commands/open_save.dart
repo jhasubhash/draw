@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ui';
 
+import 'package:flutter/rendering.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:io';
 
@@ -11,8 +13,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../actions/actions.dart';
 import '../../models/app_state.dart';
-import '../canvas_data.dart';
+import '../canvas_data.dart' as canvasData;
 import '../layer_manager.dart';
+import '../painter/path_painter.dart';
 
 void open(BuildContext context) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -36,9 +39,9 @@ void open(BuildContext context) async {
     double artboardWidth = jsonContent['width'];
 
     //print(data);
-    List<Layer> layers = [];
+    List<canvasData.Layer> layers = [];
     for (var layerData in data) {
-      layers.add(Layer.fromJson(layerData));
+      layers.add(canvasData.Layer.fromJson(layerData));
     }
 
     // ignore: use_build_context_synchronously
@@ -52,7 +55,7 @@ void open(BuildContext context) async {
 }
 
 void save(BuildContext context) async {
-  List<Layer> layers = LayerManager(context).getLayers();
+  List<canvasData.Layer> layers = LayerManager(context).getLayers();
   double artboardHeight =
       StoreProvider.of<AppState>(context).state.artboardHeight;
   double artboardWidth =
@@ -82,5 +85,43 @@ void save(BuildContext context) async {
     }
     final file = File(outputFile);
     file.writeAsString(outData);
+  }
+}
+
+void saveAsPng(BuildContext context) async {
+  final PictureRecorder recorder = PictureRecorder();
+  List<canvasData.Layer> layers = LayerManager(context).getLayers();
+  double artboardHeight =
+      StoreProvider.of<AppState>(context).state.artboardHeight;
+  double artboardWidth =
+      StoreProvider.of<AppState>(context).state.artboardWidth;
+  Size size = Size(artboardWidth, artboardHeight);
+  PathPainter(context, layers).paint(Canvas(recorder), size);
+  final Picture picture = recorder.endRecording();
+  final img =
+      await picture.toImage(artboardWidth.toInt(), artboardHeight.toInt());
+  final byteData = await img.toByteData(format: ImageByteFormat.png);
+
+  if (kIsWeb) {
+    final blob = html.Blob(<dynamic>[byteData], 'application/octet-stream');
+    final anchor =
+        html.AnchorElement(href: html.Url.createObjectUrlFromBlob(blob))
+          ..setAttribute("download", "art.png")
+          ..click();
+  } else {
+    String? outputFile = await FilePicker.platform.saveFile(
+      dialogTitle: 'Save Art:',
+      fileName: 'output.png',
+      allowedExtensions: ['png'],
+      type: FileType.custom,
+    );
+    if (outputFile == null) {
+      // User canceled the picker
+      return;
+    }
+    final file = File(outputFile);
+    final buffer = byteData!.buffer;
+    file.writeAsBytes(
+        buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
   }
 }

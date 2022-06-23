@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'commands/new_document.dart';
 import 'commands/open_save.dart';
 
-enum Command { undo, redo, newDoc, save, open }
+enum Command { undo, redo, newDoc, save, open, saveAsPng }
 
 class CommandManager {
   static final CommandManager _instance = CommandManager._internal();
@@ -30,6 +30,9 @@ class CommandManager {
         break;
       case Command.save:
         save(context);
+        break;
+      case Command.saveAsPng:
+        saveAsPng(context);
         break;
       case Command.open:
         open(context);

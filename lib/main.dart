@@ -2,6 +2,7 @@
 
 import 'package:draw/components/views/properties_panel.dart';
 import 'package:draw/components/views/right_bar.dart';
+import 'package:draw/components/views/save_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
@@ -118,7 +119,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             alignment: Alignment.topLeft,
                             margin:
                                 const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                            child: ToolsPanel(),
+                            child: Stack(
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.only(bottom: 30.0),
+                                    child: SavePanel()),
+                                ToolsPanel(),
+                              ],
+                            ),
                           ),
                         ]),
                   ),

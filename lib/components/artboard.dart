@@ -51,6 +51,8 @@ class _ArtboardState extends State<Artboard> {
                     child: CanvasTouchDetector(
                         gesturesToOverride: getGesturesToOverride(),
                         builder: (context) => CustomPaint(
+                            isComplex: true,
+                            willChange: true,
                             painter: PathPainter(context, layers)))),
               ),
             ),

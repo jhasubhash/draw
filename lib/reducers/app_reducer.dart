@@ -14,7 +14,8 @@ AppState getInitialState() {
       artboardWidth: 800,
       artboardHeight: 600,
       activeLayer: Layer(0),
-      layers: [Layer(0)]);
+      layers: [Layer(0)],
+      savePanelVisible: false);
 }
 
 AppState appReducer(AppState state, action) {
@@ -27,7 +28,8 @@ AppState appReducer(AppState state, action) {
         activeLayer: Layer(0),
         layers: [Layer(0)],
         artboardWidth: action.artboardWidth,
-        artboardHeight: action.artboardHeight);
+        artboardHeight: action.artboardHeight,
+        savePanelVisible: false);
   }
   return AppState(
       color:
@@ -50,5 +52,8 @@ AppState appReducer(AppState state, action) {
           : state.artboardWidth,
       artboardHeight: action is SetArtboardHeight
           ? artboardHeightReducer(state.artboardHeight, action)
-          : state.artboardHeight);
+          : state.artboardHeight,
+      savePanelVisible: action is SetSavePanelVisibility
+          ? savePanelVisibilityReducer(state.savePanelVisible, action)
+          : state.savePanelVisible);
 }

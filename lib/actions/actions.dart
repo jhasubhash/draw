@@ -14,6 +14,11 @@ class SetPropertiesPanelVisibility {
   SetPropertiesPanelVisibility(this.propertyPanelVisible);
 }
 
+class SetSavePanelVisibility {
+  final bool savePanelVisible;
+  SetSavePanelVisibility(this.savePanelVisible);
+}
+
 class SetTool {
   final Tool tool;
   SetTool(this.tool);

@@ -14,6 +14,7 @@ class AppState {
   final List<Layer> layers;
   final double artboardWidth;
   final double artboardHeight;
+  final bool savePanelVisible;
 
   const AppState({
     required this.color,
@@ -24,6 +25,7 @@ class AppState {
     required this.layers,
     required this.artboardWidth,
     required this.artboardHeight,
+    required this.savePanelVisible,
   });
 
   @override
