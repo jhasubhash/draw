@@ -19,9 +19,9 @@ class MultilineBrush extends BaseBrush {
 
   @override
   List<PathData> onPanStart(
-      BuildContext context, PathInfo pInfo, DragStartDetails details) {
+      BuildContext context, PathInfo pInfo, PointerDownEvent details) {
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
     p.clear();
     for (int i = 0; i < 5; i++) {
@@ -40,9 +40,9 @@ class MultilineBrush extends BaseBrush {
   }
 
   @override
-  onPanUpdate(BuildContext context, PathInfo pInfo, DragUpdateDetails details) {
+  onPanUpdate(BuildContext context, PathInfo pInfo, PointerMoveEvent details) {
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
     for (int i = 0; i < 5; i++) {
       p[i].lineTo(details.localPosition.dx + (i - 2) * pathWidth,
@@ -51,5 +51,5 @@ class MultilineBrush extends BaseBrush {
   }
 
   @override
-  onPanEnd(BuildContext context, PathInfo pInfo, DragEndDetails details) {}
+  onPanEnd(BuildContext context, PathInfo pInfo, PointerUpEvent details) {}
 }

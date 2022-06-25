@@ -23,7 +23,9 @@ class ArtBoardSize {
 class _AppCanvasState extends State<AppCanvas> {
   Offset position = Offset.zero;
   double cursorSize = 6;
-  bool canvasActive = false;
+  bool insideArtboard = false;
+  bool trueInsideArtboard = false;
+  bool onExitWhileDragging = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,66 +47,87 @@ class _AppCanvasState extends State<AppCanvas> {
                 position = event.position;
               });
             },
-            child: MouseRegion(
-              cursor: !IsSelectToolActive(context)
-                  ? SystemMouseCursors.none
-                  : SystemMouseCursors.basic,
-              onEnter: (event) {
-                setState(() {
-                  canvasActive = !IsSelectToolActive(context) ? true : false;
-                });
-              },
-              onExit: (event) {
-                setState(() {
-                  canvasActive = false;
-                });
-              },
-              child: Stack(children: [
-                Container(
-                  color: Colors.grey,
-                  width: totalWidth,
-                  height: totalHeight,
-                  child: InteractiveViewer(
-                    boundaryMargin: const EdgeInsets.all(double.infinity),
-                    minScale: 0.01,
-                    maxScale: 100,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: size.width,
-                        height: size.height,
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(3, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: LayoutBuilder(builder:
-                            (BuildContext context, BoxConstraints constraints) {
-                          return Stack(children: [
+            onPointerUp: (event) {
+              if (!onExitWhileDragging) return;
+              setState(() {
+                insideArtboard = false;
+              });
+            },
+            child: Stack(children: [
+              Container(
+                color: Colors.grey,
+                width: totalWidth,
+                height: totalHeight,
+                child: InteractiveViewer(
+                  boundaryMargin: const EdgeInsets.all(double.infinity),
+                  panEnabled: IsPanToolActive(context) || !insideArtboard,
+                  minScale: 0.01,
+                  maxScale: 100,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: size.width,
+                      height: size.height,
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            spreadRadius: 3,
+                            blurRadius: 7,
+                            offset: Offset(3, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: LayoutBuilder(builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return MouseRegion(
+                          cursor: !IsSelectToolActive(context)
+                              ? SystemMouseCursors.none
+                              : SystemMouseCursors.basic,
+                          onEnter: (event) {
+                            onExitWhileDragging = false;
+                            setState(() {
+                              trueInsideArtboard =
+                                  !IsSelectToolActive(context) ? true : false;
+                              insideArtboard =
+                                  !IsSelectToolActive(context) ? true : false;
+                            });
+                          },
+                          onExit: (event) {
+                            setState(() {
+                              trueInsideArtboard = false;
+                            });
+                            if (event.down) {
+                              onExitWhileDragging = true;
+                              return;
+                            }
+                            setState(() {
+                              insideArtboard = false;
+                            });
+                          },
+                          child: Stack(children: [
                             Artboard(
                                 canvasHeight: constraints.maxHeight,
                                 canvasWidth: constraints.maxWidth),
-                            const Tools(),
-                          ]);
-                        }),
-                      ),
+                            Container(
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                                child: const Tools()),
+                          ]),
+                        );
+                      }),
                     ),
                   ),
                 ),
-                Positioned(
-                  left: position.dx - cursorSize / 2,
-                  top: position.dy - cursorSize / 2,
-                  child:
-                      canvasActive ? AppCursor(size: cursorSize) : Container(),
-                ),
-              ]),
-            ),
+              ),
+              Positioned(
+                left: position.dx - cursorSize / 2,
+                top: position.dy - cursorSize / 2,
+                child: trueInsideArtboard
+                    ? AppCursor(size: cursorSize)
+                    : Container(),
+              ),
+            ]),
           );
         });
   }

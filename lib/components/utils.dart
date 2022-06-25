@@ -34,3 +34,11 @@ var DigitInputFormatter = <TextInputFormatter>[
 bool IsSelectToolActive(context) {
   return StoreProvider.of<AppState>(context).state.tool == Tool.select;
 }
+
+bool IsPanToolActive(context) {
+  bool panToolActive =
+      StoreProvider.of<AppState>(context).state.tool == Tool.pan;
+  bool panningActive = StoreProvider.of<AppState>(context).state.panning;
+
+  return panToolActive || panningActive;
+}

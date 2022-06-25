@@ -203,16 +203,16 @@ class _ToolsPanelState extends State<ToolsPanel> {
                                 mouseCursor: MouseCursor.defer),
                           ),
                         ),
-                        // IconButton(
-                        //     color: panSelected ? Colors.white : Colors.white38,
-                        //     icon: const Icon(Icons.back_hand),
-                        //     onPressed: () => {
-                        //       setState(() {
-                        //         setSelectedTool(Tool.pan);
-                        //       })
-                        //     },
-                        //     //tooltip: "Pan",
-                        //     mouseCursor: MouseCursor.defer),
+                        IconButton(
+                            color: panSelected ? Colors.white : Colors.white38,
+                            icon: const Icon(Icons.back_hand),
+                            onPressed: () => {
+                                  setState(() {
+                                    setSelectedTool(Tool.pan);
+                                  })
+                                },
+                            //tooltip: "Pan",
+                            mouseCursor: MouseCursor.defer),
                         // IconButton(
                         //     color: pickerSelected ? Colors.white : Colors.white38,
                         //     icon: const Icon(Icons.colorize),

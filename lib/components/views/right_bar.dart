@@ -20,10 +20,6 @@ class _RightBarState extends State<RightBar> {
       propertiesPanelVisible = false;
       brushPanelVisible = false;
     });
-    StoreProvider.of<AppState>(context)
-        .dispatch(SetPropertiesPanelVisibility(false));
-    StoreProvider.of<AppState>(context)
-        .dispatch(SetBrushPanelVisibility(false));
   }
 
   void changePropertiesPanelVisibility(BuildContext context, bool visible) {
@@ -67,8 +63,9 @@ class _RightBarState extends State<RightBar> {
           IconButton(
             color: brushPanelVisible ? Colors.white : Colors.white38,
             icon: const Icon(Icons.draw),
-            onPressed: () =>
-                {changeBrushPanelVisibility(context, !brushPanelVisible)},
+            onPressed: () => {
+              changeBrushPanelVisibility(context, !brushPanelVisible),
+            },
           ),
         ],
       ),

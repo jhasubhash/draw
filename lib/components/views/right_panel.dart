@@ -17,6 +17,7 @@ class _RightPanelState extends State<RightPanel> {
   bool isPanelVisible = true;
   Offset offset1 = Offset.zero;
   Offset offset2 = const Offset(1, 0);
+  GlobalKey _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,9 @@ class _RightPanelState extends State<RightPanel> {
               color: const Color.fromARGB(255, 94, 94, 94),
               child: prop.propertyPanelVisible
                   ? const PropertiesPanel()
-                  : const BrushPanel(),
+                  : prop.brushPanelVisible
+                      ? const BrushPanel()
+                      : null,
             ),
           );
         });

@@ -24,6 +24,11 @@ class SetSavePanelVisibility {
   SetSavePanelVisibility(this.savePanelVisible);
 }
 
+class SetPanning {
+  final bool panning;
+  SetPanning(this.panning);
+}
+
 class SetTool {
   final Tool tool;
   SetTool(this.tool);

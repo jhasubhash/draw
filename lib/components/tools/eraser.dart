@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../actions/actions.dart';
 import '../canvas_data.dart';
 import '../custom/path.dart';
 import '../layer_manager.dart';
@@ -17,10 +19,16 @@ class Eraser extends StatefulWidget {
 class _EraserState extends State<Eraser> {
   DPath p = DPath();
   late List<PathData> pathDataList;
+  bool secondaryDragging = false;
 
-  void onPanStart(PathInfo pInfo, DragStartDetails details) {
+  void onPanStart(PathInfo pInfo, PointerDownEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      secondaryDragging = true;
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(true));
+      return;
+    }
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
     p = DPath();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
@@ -29,15 +37,25 @@ class _EraserState extends State<Eraser> {
     pathDataList = newPathDataList;
   }
 
-  void onPanUpdate(PathInfo pInfo, DragUpdateDetails details) {
+  void onPanUpdate(PathInfo pInfo, PointerMoveEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      return;
+    }
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     p.lineTo(details.localPosition.dx, details.localPosition.dy);
     Layer layer = LayerManager(context).getActiveLayer();
     LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
-  void onPanEnd(PathInfo pInfo, DragEndDetails details) {
+  void onPanEnd(PathInfo pInfo, PointerUpEvent details) {
+    if (secondaryDragging) {
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(false));
+      setState(() {
+        secondaryDragging = false;
+      });
+      return;
+    }
     DrawOperation op = DrawOperation();
     Layer layer = LayerManager(context).getActiveLayer();
     op.tool = Tool.eraser;
@@ -52,10 +70,16 @@ class _EraserState extends State<Eraser> {
             color: store.state.color,
             pathDataList: store.state.activeLayer.pathDataList),
         builder: (BuildContext context, PathInfo pInfo) {
-          return GestureDetector(
-            onPanStart: (details) => onPanStart(pInfo, details),
-            onPanUpdate: (details) => onPanUpdate(pInfo, details),
-            onPanEnd: (details) => onPanEnd(pInfo, details),
+          return AbsorbPointer(
+            absorbing: false,
+            child: Listener(
+              behavior: secondaryDragging
+                  ? HitTestBehavior.deferToChild
+                  : HitTestBehavior.opaque,
+              onPointerDown: (details) => onPanStart(pInfo, details),
+              onPointerMove: (details) => onPanUpdate(pInfo, details),
+              onPointerUp: (details) => onPanEnd(pInfo, details),
+            ),
           );
         });
   }

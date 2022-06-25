@@ -17,6 +17,7 @@ AppState getInitialState() {
       activeLayer: Layer(1),
       layers: [Layer(1), Layer(0)],
       savePanelVisible: false,
+      panning: false,
       selectedBrushType: BrushType.normal);
 }
 
@@ -33,6 +34,7 @@ AppState appReducer(AppState state, action) {
         artboardWidth: action.artboardWidth,
         artboardHeight: action.artboardHeight,
         savePanelVisible: false,
+        panning: false,
         selectedBrushType: state.selectedBrushType);
   }
   return AppState(
@@ -63,6 +65,9 @@ AppState appReducer(AppState state, action) {
       savePanelVisible: action is SetSavePanelVisibility
           ? savePanelVisibilityReducer(state.savePanelVisible, action)
           : state.savePanelVisible,
+      panning: action is SetPanning
+          ? panningReducer(state.panning, action)
+          : state.panning,
       selectedBrushType: action is SetSelectedBrushType
           ? selectedBrushTypeReducer(state.selectedBrushType, action)
           : state.selectedBrushType);

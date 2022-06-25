@@ -20,9 +20,9 @@ class NormalBrush extends BaseBrush {
 
   @override
   List<PathData> onPanStart(
-      BuildContext context, PathInfo pInfo, DragStartDetails details) {
+      BuildContext context, PathInfo pInfo, PointerDownEvent details) {
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
     p = DPath();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
@@ -33,12 +33,12 @@ class NormalBrush extends BaseBrush {
   }
 
   @override
-  onPanUpdate(BuildContext context, PathInfo pInfo, DragUpdateDetails details) {
+  onPanUpdate(BuildContext context, PathInfo pInfo, PointerMoveEvent details) {
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     p.lineTo(details.localPosition.dx, details.localPosition.dy);
   }
 
   @override
-  onPanEnd(BuildContext context, PathInfo pInfo, DragEndDetails details) {}
+  onPanEnd(BuildContext context, PathInfo pInfo, PointerUpEvent details) {}
 }

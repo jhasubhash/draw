@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -22,14 +23,20 @@ class _LassoToolState extends State<LassoTool> {
   double selectedWidth = 1.0;
   DPath p = DPath();
   late List<PathData> pathDataList;
+  bool secondaryDragging = false;
 
-  void onPanStart(PathInfo pInfo, DragStartDetails details) {
+  void onPanStart(PathInfo pInfo, PointerDownEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      secondaryDragging = true;
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(true));
+      return;
+    }
     bool clear = widget.lassoClear ||
         RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft);
     PathType fillType = clear ? PathType.lassoClear : PathType.lassoFill;
 
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     p = DPath();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
@@ -37,15 +44,25 @@ class _LassoToolState extends State<LassoTool> {
     pathDataList = newPathDataList;
   }
 
-  void onPanUpdate(PathInfo pInfo, DragUpdateDetails details) {
+  void onPanUpdate(PathInfo pInfo, PointerMoveEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      return;
+    }
     final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
+    final point = box.globalToLocal(details.localPosition);
     p.lineTo(details.localPosition.dx, details.localPosition.dy);
     Layer layer = LayerManager(context).getActiveLayer();
     LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
-  void onPanEnd(PathInfo pInfo, DragEndDetails details) {
+  void onPanEnd(PathInfo pInfo, PointerUpEvent details) {
+    if (secondaryDragging) {
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(false));
+      setState(() {
+        secondaryDragging = false;
+      });
+      return;
+    }
     DrawOperation op = DrawOperation();
     Layer layer = LayerManager(context).getActiveLayer();
     op.tool = Tool.lasso;
@@ -60,10 +77,16 @@ class _LassoToolState extends State<LassoTool> {
             color: store.state.color,
             pathDataList: store.state.activeLayer.pathDataList),
         builder: (BuildContext context, PathInfo pInfo) {
-          return GestureDetector(
-            onPanStart: (details) => onPanStart(pInfo, details),
-            onPanUpdate: (details) => onPanUpdate(pInfo, details),
-            onPanEnd: (details) => onPanEnd(pInfo, details),
+          return AbsorbPointer(
+            absorbing: false,
+            child: Listener(
+              behavior: secondaryDragging
+                  ? HitTestBehavior.deferToChild
+                  : HitTestBehavior.opaque,
+              onPointerDown: (details) => onPanStart(pInfo, details),
+              onPointerMove: (details) => onPanUpdate(pInfo, details),
+              onPointerUp: (details) => onPanEnd(pInfo, details),
+            ),
           );
         });
   }

@@ -17,6 +17,7 @@ class AppState {
   final double artboardHeight;
   final bool savePanelVisible;
   final BrushType selectedBrushType;
+  final bool panning;
 
   const AppState({
     required this.color,
@@ -30,6 +31,7 @@ class AppState {
     required this.artboardHeight,
     required this.savePanelVisible,
     required this.selectedBrushType,
+    required this.panning,
   });
 
   @override

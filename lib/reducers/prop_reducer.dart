@@ -82,3 +82,9 @@ BrushType _setSelectedBrushTypeReducer(
     BrushType state, SetSelectedBrushType action) {
   return action.selectedBrushType;
 }
+
+final panningReducer = TypedReducer<bool, SetPanning>(_setPanningReducer);
+
+bool _setPanningReducer(bool state, SetPanning action) {
+  return action.panning;
+}

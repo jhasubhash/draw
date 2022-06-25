@@ -1,6 +1,7 @@
 import 'package:draw/actions/actions.dart';
 import 'package:draw/components/tools/brushes/multiline_brush.dart';
 import 'package:draw/components/tools/brushes/normal_brush.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -21,8 +22,14 @@ class _BrushState extends State<Brush> {
   double selectedWidth = 1.0;
   DPath p = DPath();
   late List<PathData> pathDataList;
+  bool secondaryDragging = false;
 
-  void onPanStart(PathInfo pInfo, DragStartDetails details) {
+  void onPanStart(PathInfo pInfo, PointerDownEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      secondaryDragging = true;
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(true));
+      return;
+    }
     final brushType =
         StoreProvider.of<AppState>(context).state.selectedBrushType;
     List<PathData> newPathDataList = [];
@@ -39,7 +46,10 @@ class _BrushState extends State<Brush> {
       ..addAll(newPathDataList);
   }
 
-  void onPanUpdate(PathInfo pInfo, DragUpdateDetails details) {
+  void onPanUpdate(PathInfo pInfo, PointerMoveEvent details) {
+    if (details.buttons == kSecondaryButton) {
+      return;
+    }
     final brushType =
         StoreProvider.of<AppState>(context).state.selectedBrushType;
     switch (brushType) {
@@ -55,7 +65,14 @@ class _BrushState extends State<Brush> {
     LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
 
-  void onPanEnd(PathInfo pInfo, DragEndDetails details) {
+  void onPanEnd(PathInfo pInfo, PointerUpEvent details) {
+    if (secondaryDragging) {
+      StoreProvider.of<AppState>(context).dispatch(SetPanning(false));
+      setState(() {
+        secondaryDragging = false;
+      });
+      return;
+    }
     DrawOperation op = DrawOperation();
     Layer layer = LayerManager(context).getActiveLayer();
     op.tool = Tool.brush;
@@ -70,10 +87,16 @@ class _BrushState extends State<Brush> {
             color: store.state.color,
             pathDataList: store.state.activeLayer.pathDataList),
         builder: (BuildContext context, PathInfo pInfo) {
-          return GestureDetector(
-            onPanStart: (details) => onPanStart(pInfo, details),
-            onPanUpdate: (details) => onPanUpdate(pInfo, details),
-            onPanEnd: (details) => onPanEnd(pInfo, details),
+          return AbsorbPointer(
+            absorbing: false,
+            child: Listener(
+              behavior: secondaryDragging
+                  ? HitTestBehavior.deferToChild
+                  : HitTestBehavior.opaque,
+              onPointerDown: (details) => onPanStart(pInfo, details),
+              onPointerMove: (details) => onPanUpdate(pInfo, details),
+              onPointerUp: (details) => onPanEnd(pInfo, details),
+            ),
           );
         });
   }
