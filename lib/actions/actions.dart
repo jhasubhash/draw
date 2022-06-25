@@ -14,6 +14,11 @@ class SetPropertiesPanelVisibility {
   SetPropertiesPanelVisibility(this.propertyPanelVisible);
 }
 
+class SetBrushPanelVisibility {
+  final bool brushPanelVisible;
+  SetBrushPanelVisibility(this.brushPanelVisible);
+}
+
 class SetSavePanelVisibility {
   final bool savePanelVisible;
   SetSavePanelVisibility(this.savePanelVisible);
@@ -55,4 +60,9 @@ class SetArtboardWidth {
 class SetArtboardHeight {
   final double artboardHeight;
   SetArtboardHeight(this.artboardHeight);
+}
+
+class SetSelectedBrushType {
+  final BrushType selectedBrushType;
+  SetSelectedBrushType(this.selectedBrushType);
 }

@@ -15,6 +15,8 @@ enum Tool {
   lassoClear
 }
 
+enum BrushType { normal, multiline, dashed }
+
 enum OpAction { lassoFill, lassoErase, drawStroke, erase }
 
 var DigitInputFormatter = <TextInputFormatter>[

@@ -17,9 +17,9 @@ class PathPainter extends CustomPainter {
 
   // static final PathPainter _instance = PathPainter._internal();
 
-  // factory PathPainter(context, pathDataList) {
+  // factory PathPainter(context, layers) {
   //   _instance.context = context;
-  //   _instance.pathDataList = pathDataList;
+  //   _instance.layers = layers;
   //   return _instance;
   // }
 

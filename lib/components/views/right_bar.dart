@@ -12,14 +12,36 @@ class RightBar extends StatefulWidget {
 }
 
 class _RightBarState extends State<RightBar> {
-  bool panelVisible = false;
+  bool propertiesPanelVisible = false;
+  bool brushPanelVisible = false;
 
-  void changePanelVisibility(BuildContext context, bool visible) {
+  resetVisibility() {
     setState(() {
-      panelVisible = visible;
+      propertiesPanelVisible = false;
+      brushPanelVisible = false;
+    });
+    StoreProvider.of<AppState>(context)
+        .dispatch(SetPropertiesPanelVisibility(false));
+    StoreProvider.of<AppState>(context)
+        .dispatch(SetBrushPanelVisibility(false));
+  }
+
+  void changePropertiesPanelVisibility(BuildContext context, bool visible) {
+    resetVisibility();
+    setState(() {
+      propertiesPanelVisible = visible;
     });
     StoreProvider.of<AppState>(context)
         .dispatch(SetPropertiesPanelVisibility(visible));
+  }
+
+  void changeBrushPanelVisibility(BuildContext context, bool visible) {
+    resetVisibility();
+    setState(() {
+      brushPanelVisible = visible;
+    });
+    StoreProvider.of<AppState>(context)
+        .dispatch(SetBrushPanelVisibility(visible));
   }
 
   @override
@@ -28,14 +50,27 @@ class _RightBarState extends State<RightBar> {
       width: 40,
       height: double.infinity,
       color: const Color.fromARGB(255, 53, 53, 53),
-      child: Container(
-        margin: const EdgeInsets.only(top: 40.0),
-        alignment: Alignment.topCenter,
-        child: IconButton(
-          color: panelVisible ? Colors.white : Colors.white38,
-          icon: const Icon(Icons.tune),
-          onPressed: () => {changePanelVisibility(context, !panelVisible)},
-        ),
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 40.0),
+            alignment: Alignment.topCenter,
+            child: IconButton(
+              color: propertiesPanelVisible ? Colors.white : Colors.white38,
+              icon: const Icon(Icons.tune),
+              onPressed: () => {
+                changePropertiesPanelVisibility(
+                    context, !propertiesPanelVisible)
+              },
+            ),
+          ),
+          IconButton(
+            color: brushPanelVisible ? Colors.white : Colors.white38,
+            icon: const Icon(Icons.draw),
+            onPressed: () =>
+                {changeBrushPanelVisibility(context, !brushPanelVisible)},
+          ),
+        ],
       ),
     );
   }

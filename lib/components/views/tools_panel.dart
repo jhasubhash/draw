@@ -174,17 +174,17 @@ class _ToolsPanelState extends State<ToolsPanel> {
                                 },
                             //tooltip: "Pencil",
                             mouseCursor: MouseCursor.defer),
-                        // IconButton(
-                        //     color: brushSelected ? Colors.white : Colors.white38,
-                        //     icon: const Icon(Icons.brush),
-                        //     onPressed: null,
-                        //     /*() => {
-                        //       setState(() {
-                        //         setSelectedTool(Tool.brush);
-                        //       })
-                        //     },*/
-                        //     //tooltip: "Paint Brush",
-                        //     mouseCursor: MouseCursor.defer),
+                        IconButton(
+                            color:
+                                brushSelected ? Colors.white : Colors.white38,
+                            icon: const Icon(Icons.brush),
+                            onPressed: () => {
+                                  setState(() {
+                                    setSelectedTool(Tool.brush);
+                                  })
+                                },
+                            //tooltip: "Paint Brush",
+                            mouseCursor: MouseCursor.defer),
                         Transform.rotate(
                           angle: -math.pi / 4,
                           child: Transform.scale(

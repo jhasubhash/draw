@@ -1,12 +1,13 @@
 // ignore_for_file: unnecessary_new
 
-import 'package:draw/components/views/properties_panel.dart';
+import 'package:draw/components/views/right_panel.dart';
 import 'package:draw/components/views/right_bar.dart';
 import 'package:draw/components/views/save_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
 import 'components/command_manager.dart';
+import 'components/views/properties_panel.dart';
 import 'components/views/tools_panel.dart';
 import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
@@ -110,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Container(
                                     margin: const EdgeInsets.only(
                                         top: 30.0, bottom: 30.0),
-                                    child: PropertiesPanel()),
+                                    child: RightPanel()),
                                 RightBar(),
                               ],
                             ),

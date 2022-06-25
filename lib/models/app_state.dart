@@ -8,6 +8,7 @@ import '../components/utils.dart';
 class AppState {
   final Color color;
   final bool propertyPanelVisible;
+  final bool brushPanelVisible;
   final Tool tool;
   final double strokeWidth;
   final Layer activeLayer;
@@ -15,10 +16,12 @@ class AppState {
   final double artboardWidth;
   final double artboardHeight;
   final bool savePanelVisible;
+  final BrushType selectedBrushType;
 
   const AppState({
     required this.color,
     required this.propertyPanelVisible,
+    required this.brushPanelVisible,
     required this.tool,
     required this.strokeWidth,
     required this.activeLayer,
@@ -26,6 +29,7 @@ class AppState {
     required this.artboardWidth,
     required this.artboardHeight,
     required this.savePanelVisible,
+    required this.selectedBrushType,
   });
 
   @override

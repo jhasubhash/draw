@@ -67,7 +67,7 @@ class _AppCanvasState extends State<AppCanvas> {
                   child: InteractiveViewer(
                     boundaryMargin: const EdgeInsets.all(double.infinity),
                     minScale: 0.01,
-                    maxScale: 1000,
+                    maxScale: 100,
                     child: Align(
                       alignment: Alignment.center,
                       child: Container(

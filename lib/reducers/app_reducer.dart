@@ -9,13 +9,15 @@ AppState getInitialState() {
   return AppState(
       color: Colors.black,
       propertyPanelVisible: false,
+      brushPanelVisible: false,
       tool: Tool.select,
       strokeWidth: 1,
       artboardWidth: 800,
       artboardHeight: 600,
       activeLayer: Layer(1),
       layers: [Layer(1), Layer(0)],
-      savePanelVisible: false);
+      savePanelVisible: false,
+      selectedBrushType: BrushType.normal);
 }
 
 AppState appReducer(AppState state, action) {
@@ -23,13 +25,15 @@ AppState appReducer(AppState state, action) {
     return AppState(
         color: state.color,
         propertyPanelVisible: state.propertyPanelVisible,
+        brushPanelVisible: state.brushPanelVisible,
         tool: state.tool,
         strokeWidth: state.strokeWidth,
         activeLayer: Layer(1),
         layers: [Layer(1), Layer(0)],
         artboardWidth: action.artboardWidth,
         artboardHeight: action.artboardHeight,
-        savePanelVisible: false);
+        savePanelVisible: false,
+        selectedBrushType: state.selectedBrushType);
   }
   return AppState(
       color:
@@ -37,6 +41,9 @@ AppState appReducer(AppState state, action) {
       propertyPanelVisible: action is SetPropertiesPanelVisibility
           ? propPanelVisibleReducer(state.propertyPanelVisible, action)
           : state.propertyPanelVisible,
+      brushPanelVisible: action is SetBrushPanelVisibility
+          ? brushPanelVisibleReducer(state.brushPanelVisible, action)
+          : state.brushPanelVisible,
       tool: action is SetTool ? toolReducer(state.tool, action) : state.tool,
       strokeWidth: action is SetStrokeWidth
           ? strokeWidthReducer(state.strokeWidth, action)
@@ -55,5 +62,8 @@ AppState appReducer(AppState state, action) {
           : state.artboardHeight,
       savePanelVisible: action is SetSavePanelVisibility
           ? savePanelVisibilityReducer(state.savePanelVisible, action)
-          : state.savePanelVisible);
+          : state.savePanelVisible,
+      selectedBrushType: action is SetSelectedBrushType
+          ? selectedBrushTypeReducer(state.selectedBrushType, action)
+          : state.selectedBrushType);
 }

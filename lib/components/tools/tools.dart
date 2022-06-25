@@ -1,3 +1,4 @@
+import 'package:draw/components/tools/brush.dart';
 import 'package:draw/components/tools/select.dart';
 import 'package:draw/components/utils.dart';
 import 'package:draw/models/app_state.dart';
@@ -35,6 +36,8 @@ class _ToolsState extends State<Tools> {
               return const Eraser();
             case Tool.select:
               return const Select();
+            case Tool.brush:
+              return const Brush();
             default:
               return Container();
           }

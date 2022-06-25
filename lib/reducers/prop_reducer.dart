@@ -20,6 +20,14 @@ bool _setPPanelVisibilityReducer(
   return action.propertyPanelVisible;
 }
 
+final brushPanelVisibleReducer = TypedReducer<bool, SetBrushPanelVisibility>(
+    _setBrushPanelVisibilityReducer);
+
+bool _setBrushPanelVisibilityReducer(
+    bool state, SetBrushPanelVisibility action) {
+  return action.brushPanelVisible;
+}
+
 final toolReducer = TypedReducer<Tool, SetTool>(_setToolReducer);
 
 Tool _setToolReducer(Tool state, SetTool action) {
@@ -65,4 +73,12 @@ final savePanelVisibilityReducer =
 
 bool _setSavePanelVisibilityReducer(bool state, SetSavePanelVisibility action) {
   return action.savePanelVisible;
+}
+
+final selectedBrushTypeReducer =
+    TypedReducer<BrushType, SetSelectedBrushType>(_setSelectedBrushTypeReducer);
+
+BrushType _setSelectedBrushTypeReducer(
+    BrushType state, SetSelectedBrushType action) {
+  return action.selectedBrushType;
 }

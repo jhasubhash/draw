@@ -1,4 +1,6 @@
 import 'package:draw/actions/actions.dart';
+import 'package:draw/components/tools/brushes/multiline_brush.dart';
+import 'package:draw/components/tools/brushes/normal_brush.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -9,33 +11,46 @@ import '../op_manager.dart';
 import '../utils.dart';
 import '../../models/app_state.dart';
 
-class Pencil extends StatefulWidget {
-  const Pencil({Key? key}) : super(key: key);
+class Brush extends StatefulWidget {
+  const Brush({Key? key}) : super(key: key);
   @override
-  State<Pencil> createState() => _PencilState();
+  State<Brush> createState() => _BrushState();
 }
 
-class _PencilState extends State<Pencil> {
+class _BrushState extends State<Brush> {
   double selectedWidth = 1.0;
   DPath p = DPath();
   late List<PathData> pathDataList;
 
   void onPanStart(PathInfo pInfo, DragStartDetails details) {
-    final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
-    final pathWidth = StoreProvider.of<AppState>(context).state.strokeWidth;
-    p = DPath();
-    print("op pan start");
-    p.moveTo(details.localPosition.dx, details.localPosition.dy);
-    List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
-      ..add(PathData(p, pInfo.color, pathWidth, PathType.normal));
-    pathDataList = newPathDataList;
+    final brushType =
+        StoreProvider.of<AppState>(context).state.selectedBrushType;
+    List<PathData> newPathDataList = [];
+    switch (brushType) {
+      case BrushType.normal:
+        newPathDataList = NormalBrush().onPanStart(context, pInfo, details);
+        break;
+      case BrushType.multiline:
+        newPathDataList = MultilineBrush().onPanStart(context, pInfo, details);
+        break;
+      default:
+    }
+    pathDataList = List<PathData>.from(pInfo.pathDataList)
+      ..addAll(newPathDataList);
   }
 
   void onPanUpdate(PathInfo pInfo, DragUpdateDetails details) {
-    final box = context.findRenderObject() as RenderBox;
-    final point = box.globalToLocal(details.globalPosition);
-    p.lineTo(details.localPosition.dx, details.localPosition.dy);
+    final brushType =
+        StoreProvider.of<AppState>(context).state.selectedBrushType;
+    switch (brushType) {
+      case BrushType.normal:
+        NormalBrush().onPanUpdate(context, pInfo, details);
+        break;
+      case BrushType.multiline:
+        MultilineBrush().onPanUpdate(context, pInfo, details);
+        break;
+      default:
+    }
     Layer layer = LayerManager(context).getActiveLayer();
     LayerManager(context).modifyLayerWithId(layer.layerId, pathDataList);
   }
@@ -43,7 +58,7 @@ class _PencilState extends State<Pencil> {
   void onPanEnd(PathInfo pInfo, DragEndDetails details) {
     DrawOperation op = DrawOperation();
     Layer layer = LayerManager(context).getActiveLayer();
-    op.tool = Tool.pencil;
+    op.tool = Tool.brush;
     op.layer = layer;
     OpManager().addOperation(op);
   }
