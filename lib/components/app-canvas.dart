@@ -31,7 +31,6 @@ class _AppCanvasState extends State<AppCanvas> {
   Widget build(BuildContext context) {
     double totalHeight = MediaQuery.of(context).size.height;
     double totalWidth = MediaQuery.of(context).size.width;
-
     return StoreConnector<AppState, ArtBoardSize>(
         converter: (store) =>
             ArtBoardSize(store.state.artboardWidth, store.state.artboardHeight),
@@ -80,12 +79,9 @@ class _AppCanvasState extends State<AppCanvas> {
                       ),
                       child: LayoutBuilder(builder:
                           (BuildContext context, BoxConstraints constraints) {
-                        return MouseRegion(
-                          cursor: !IsSelectToolActive(context)
-                              ? SystemMouseCursors.none
-                              : SystemMouseCursors.basic,
-                          onEnter: (event) {
-                            onExitWhileDragging = false;
+                        return Listener(
+                          behavior: HitTestBehavior.opaque,
+                          onPointerMove: (event) {
                             setState(() {
                               trueInsideArtboard =
                                   !IsSelectToolActive(context) ? true : false;
@@ -93,27 +89,47 @@ class _AppCanvasState extends State<AppCanvas> {
                                   !IsSelectToolActive(context) ? true : false;
                             });
                           },
-                          onExit: (event) {
+                          onPointerUp: (event) {
                             setState(() {
                               trueInsideArtboard = false;
-                            });
-                            if (event.down) {
-                              onExitWhileDragging = true;
-                              return;
-                            }
-                            setState(() {
                               insideArtboard = false;
                             });
                           },
-                          child: Stack(children: [
-                            Artboard(
-                                canvasHeight: constraints.maxHeight,
-                                canvasWidth: constraints.maxWidth),
-                            Container(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                                child: const Tools()),
-                          ]),
+                          child: MouseRegion(
+                            cursor: !IsSelectToolActive(context)
+                                ? SystemMouseCursors.none
+                                : SystemMouseCursors.basic,
+                            onEnter: (event) {
+                              onExitWhileDragging = false;
+                              setState(() {
+                                trueInsideArtboard =
+                                    !IsSelectToolActive(context) ? true : false;
+                                insideArtboard =
+                                    !IsSelectToolActive(context) ? true : false;
+                              });
+                            },
+                            onExit: (event) {
+                              setState(() {
+                                trueInsideArtboard = false;
+                              });
+                              if (event.down) {
+                                onExitWhileDragging = true;
+                                return;
+                              }
+                              setState(() {
+                                insideArtboard = false;
+                              });
+                            },
+                            child: Stack(children: [
+                              Artboard(
+                                  canvasHeight: constraints.maxHeight,
+                                  canvasWidth: constraints.maxWidth),
+                              Container(
+                                  width: constraints.maxWidth,
+                                  height: constraints.maxHeight,
+                                  child: const Tools()),
+                            ]),
+                          ),
                         );
                       }),
                     ),

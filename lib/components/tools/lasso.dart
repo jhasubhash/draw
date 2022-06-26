@@ -26,6 +26,9 @@ class _LassoToolState extends State<LassoTool> {
   bool secondaryDragging = false;
 
   void onPanStart(PathInfo pInfo, PointerDownEvent details) {
+    PointerDeviceKind pointerType = details.kind;
+    bool touchDevice = pointerType == PointerDeviceKind.touch ||
+        pointerType == PointerDeviceKind.stylus;
     if (details.buttons == kSecondaryButton) {
       secondaryDragging = true;
       StoreProvider.of<AppState>(context).dispatch(SetPanning(true));
@@ -45,6 +48,9 @@ class _LassoToolState extends State<LassoTool> {
   }
 
   void onPanUpdate(PathInfo pInfo, PointerMoveEvent details) {
+    PointerDeviceKind pointerType = details.kind;
+    bool touchDevice = pointerType == PointerDeviceKind.touch ||
+        pointerType == PointerDeviceKind.stylus;
     if (details.buttons == kSecondaryButton) {
       return;
     }
@@ -56,6 +62,9 @@ class _LassoToolState extends State<LassoTool> {
   }
 
   void onPanEnd(PathInfo pInfo, PointerUpEvent details) {
+    PointerDeviceKind pointerType = details.kind;
+    bool touchDevice = pointerType == PointerDeviceKind.touch ||
+        pointerType == PointerDeviceKind.stylus;
     if (secondaryDragging) {
       StoreProvider.of<AppState>(context).dispatch(SetPanning(false));
       setState(() {

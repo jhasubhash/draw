@@ -39,6 +39,5 @@ bool IsPanToolActive(context) {
   bool panToolActive =
       StoreProvider.of<AppState>(context).state.tool == Tool.pan;
   bool panningActive = StoreProvider.of<AppState>(context).state.panning;
-
   return panToolActive || panningActive;
 }
