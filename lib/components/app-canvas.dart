@@ -92,15 +92,12 @@ class _AppCanvasState extends State<AppCanvas> {
                           behavior: HitTestBehavior.opaque,
                           onPointerDown: (event) {
                             setState(() {
-                              trueInsideArtboard =
-                                  !IsSelectToolActive(context) ? true : false;
                               insideArtboard =
                                   !IsSelectToolActive(context) ? true : false;
                             });
                           },
                           onPointerUp: (event) {
                             setState(() {
-                              trueInsideArtboard = false;
                               insideArtboard = false;
                             });
                           },
