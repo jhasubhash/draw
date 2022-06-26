@@ -1,4 +1,5 @@
 import 'package:draw/components/utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -26,6 +27,7 @@ class _AppCanvasState extends State<AppCanvas> {
   bool insideArtboard = false;
   bool trueInsideArtboard = false;
   bool onExitWhileDragging = false;
+  bool touchDevice = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,13 @@ class _AppCanvasState extends State<AppCanvas> {
             onPointerHover: (event) {
               setState(() {
                 position = event.position;
+              });
+            },
+            onPointerDown: (event) {
+              PointerDeviceKind pointerType = event.kind;
+              setState(() {
+                touchDevice = pointerType == PointerDeviceKind.touch ||
+                    pointerType == PointerDeviceKind.stylus;
               });
             },
             onPointerMove: (event) {
@@ -81,7 +90,7 @@ class _AppCanvasState extends State<AppCanvas> {
                           (BuildContext context, BoxConstraints constraints) {
                         return Listener(
                           behavior: HitTestBehavior.opaque,
-                          onPointerMove: (event) {
+                          onPointerDown: (event) {
                             setState(() {
                               trueInsideArtboard =
                                   !IsSelectToolActive(context) ? true : false;
@@ -139,7 +148,7 @@ class _AppCanvasState extends State<AppCanvas> {
               Positioned(
                 left: position.dx - cursorSize / 2,
                 top: position.dy - cursorSize / 2,
-                child: trueInsideArtboard
+                child: trueInsideArtboard && !touchDevice
                     ? AppCursor(size: cursorSize)
                     : Container(),
               ),

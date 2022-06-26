@@ -29,7 +29,7 @@ class _LassoToolState extends State<LassoTool> {
     PointerDeviceKind pointerType = details.kind;
     bool touchDevice = pointerType == PointerDeviceKind.touch ||
         pointerType == PointerDeviceKind.stylus;
-    if (details.buttons == kSecondaryButton) {
+    if (details.buttons == kSecondaryButton && !touchDevice) {
       secondaryDragging = true;
       StoreProvider.of<AppState>(context).dispatch(SetPanning(true));
       return;
@@ -51,7 +51,7 @@ class _LassoToolState extends State<LassoTool> {
     PointerDeviceKind pointerType = details.kind;
     bool touchDevice = pointerType == PointerDeviceKind.touch ||
         pointerType == PointerDeviceKind.stylus;
-    if (details.buttons == kSecondaryButton) {
+    if (details.buttons == kSecondaryButton && !touchDevice) {
       return;
     }
     final box = context.findRenderObject() as RenderBox;
@@ -65,7 +65,7 @@ class _LassoToolState extends State<LassoTool> {
     PointerDeviceKind pointerType = details.kind;
     bool touchDevice = pointerType == PointerDeviceKind.touch ||
         pointerType == PointerDeviceKind.stylus;
-    if (secondaryDragging) {
+    if (secondaryDragging && !touchDevice) {
       StoreProvider.of<AppState>(context).dispatch(SetPanning(false));
       setState(() {
         secondaryDragging = false;
