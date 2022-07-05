@@ -3,6 +3,7 @@
 import 'package:draw/components/views/right_panel.dart';
 import 'package:draw/components/views/right_bar.dart';
 import 'package:draw/components/views/save_panel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'components/app-canvas.dart';
@@ -13,6 +14,7 @@ import 'models/app_state.dart';
 import 'reducers/app_reducer.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:statsfl/statsfl.dart';
 
 void main() {
   final store = Store<AppState>(appReducer, initialState: getInitialState());
@@ -85,57 +87,61 @@ class _MyHomePageState extends State<MyHomePage> {
         const SingleActivator(LogicalKeyboardKey.keyO, meta: true): () =>
             CommandManager().execute(context, Command.open),
       },
-      child: Focus(
-        autofocus: true,
-        canRequestFocus: true,
-        focusNode: _mainAppfocus,
-        child: Builder(builder: (context) {
-          return Scaffold(
-              body: Container(
-            color: Colors.grey,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: totalWidth,
-                    height: totalHeight,
-                    child: Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: [
-                          AppCanvas(),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 30.0, bottom: 30.0),
-                                    child: RightPanel()),
-                                RightBar(),
-                              ],
+      child: StatsFl(
+        isEnabled: kDebugMode,
+        child: Focus(
+          autofocus: true,
+          canRequestFocus: true,
+          focusNode: _mainAppfocus,
+          child: Builder(builder: (context) {
+            return Scaffold(
+                body: Container(
+              color: Colors.grey,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: totalWidth,
+                      height: totalHeight,
+                      child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            AppCanvas(),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 30.0, bottom: 30.0),
+                                      child: RightPanel()),
+                                  RightBar(),
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin:
-                                const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                            child: Stack(
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(bottom: 30.0),
-                                    child: SavePanel()),
-                                ToolsPanel(),
-                              ],
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: const EdgeInsets.only(
+                                  top: 50.0, bottom: 50.0),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                      margin:
+                                          const EdgeInsets.only(bottom: 30.0),
+                                      child: SavePanel()),
+                                  ToolsPanel(),
+                                ],
+                              ),
                             ),
-                          ),
-                        ]),
-                  ),
-                ],
+                          ]),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ));
-        }),
+            ));
+          }),
+        ),
       ),
     );
   }

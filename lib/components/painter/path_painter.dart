@@ -124,6 +124,7 @@ class PathPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PathPainter delegate) {
-    return true;
+    bool repaint = !(delegate.layers == layers);
+    return repaint;
   }
 }

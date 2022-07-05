@@ -43,7 +43,7 @@ class _LassoToolState extends State<LassoTool> {
     p = DPath();
     p.moveTo(details.localPosition.dx, details.localPosition.dy);
     List<PathData> newPathDataList = List<PathData>.from(pInfo.pathDataList)
-      ..add(PathData(p, pInfo.color, selectedWidth, fillType));
+      ..add(PathData(p, pInfo.color, 0, fillType));
     pathDataList = newPathDataList;
   }
 
